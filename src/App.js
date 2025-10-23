@@ -1,11 +1,13 @@
 import './App.css';
-import MemberRegistration from './pages/Signin';
+import SignUpPage from './pages/Signin';
 import Login from './pages/Login';
 import LikeLionNYU from './pages/LandingPage';
+import AttendancePage  from './pages/Attendance';
+
 
 function App() {
   return (
-    <LikeLionNYU />
+    <SignUpPage />
   );
 }
 
