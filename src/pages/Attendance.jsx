@@ -77,21 +77,21 @@ export default function AttendancePage() {
       </nav>
 
       {/* Main Content */}
-      <div className="px-8 py-16">
-        <h1 className="text-6xl font-bold mb-20">Attendance</h1>
+      <div className="px-[32px] py-[48px]">
+        <h1 className="text-[64px] font-bold mb-[48px]">Attendance</h1>
 
-        <div className="max-w-2xl mx-auto flex items-center justify-center">
-          <div className="w-full max-w-md bg-white border-2 border-gray-300 rounded-[3rem] p-16">
+        <div className="max-w-xl mx-auto">
+          <div className="bg-white border border-black rounded-[50px] px-[72px] pt-[30px] pb-[43px]">
             {/* Title */}
-            <h2 className="text-4xl font-bold text-center mb-16">
-              LikeLion x <span className="text-purple-600">NYU</span>
+            <h2 className="text-[48px] font-bold text-center mb-[48px]">
+              LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
             </h2>
 
             {/* Form */}
-            <div className="space-y-8">
+            <div className="space-y-[16px]">
               {/* Email */}
               <div>
-                <label className="block text-lg font-semibold mb-3">
+                <label className="block text-[20px] font-bold mb-[12px]">
                   Email:
                 </label>
                 <input
@@ -99,7 +99,7 @@ export default function AttendancePage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-6 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:border-purple-600 text-base"
+                  className="w-full px-[16px] py-[9px] border border-black rounded-full focus:outline-none focus:border-nyu-purple text-[16px]"
                 />
               </div>
 
@@ -113,7 +113,7 @@ export default function AttendancePage() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-6 py-4 border-2 border-gray-300 rounded-full focus:outline-none focus:border-purple-600 text-base"
+                  className="w-full px-[16px] py-[9px] border border-black rounded-full focus:outline-none focus:border-nyu-purple text-[16px]"
                 />
               </div>
 
@@ -122,7 +122,7 @@ export default function AttendancePage() {
                 <button
                   onClick={handleAttendance}
                   disabled={loading}
-                  className="px-16 py-3 border-2 border-gray-300 rounded-full text-base font-medium hover:bg-gray-100 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors"
+                  className="px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors"
                 >
                   {loading ? '처리 중...' : 'Log In'}
                 </button>
@@ -142,9 +142,8 @@ export default function AttendancePage() {
               {/* Sign Up Link */}
               <div className="text-center pt-4">
                 <p className="text-sm text-gray-600">
-                  Don't have an account?{' '}
+                  {' '}
                   <a href="#signup" className="text-orange-500 font-semibold hover:text-orange-600">
-                    Sign Up
                   </a>
                 </p>
               </div>
