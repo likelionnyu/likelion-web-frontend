@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,6 +11,7 @@ export default function AttendancePage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false); // 테스트용 - 나중에 false로 변경
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +20,16 @@ export default function AttendancePage() {
       [name]: value
     });
   };
+
+  // 테스트용: 팝업 자동 닫기
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 2500); // 2.5초 후 자동으로 닫힘
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   const handleAttendance = async () => {
     setLoading(true);
@@ -38,7 +49,10 @@ export default function AttendancePage() {
         const result = await response.json();
         setMessage('Attendance Successful!');
         console.log('서버 응답:', result);
-        
+
+        // 팝업 표시
+        setShowPopup(true);
+
         // 폼 초기화
         setFormData({
           school_email: '',
@@ -46,8 +60,9 @@ export default function AttendancePage() {
         });
 
         setTimeout(() => {
+          setShowPopup(false);
           navigate('/');
-        }, 1000); // 1초 후 이동 (성공 메시지를 보여주기 위함)
+        }, 4000); // 4초 후 팝업 닫고 이동
       } else {
         setMessage('Incorrect email or password');
       }
@@ -155,9 +170,9 @@ export default function AttendancePage() {
 
       {/* Footer */}
       <footer className="py-12 text-center">
-        <a 
-          href="https://instagram.com" 
-          target="_blank" 
+        <a
+          href="https://instagram.com"
+          target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center w-10 h-10 hover:opacity-70 transition-opacity"
         >
@@ -166,6 +181,63 @@ export default function AttendancePage() {
           </svg>
         </a>
       </footer>
+
+      {/* Success Popup */}
+      {showPopup && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+          }}
+        >
+          <div
+            className="bg-white flex flex-col items-center justify-center"
+            style={{
+              width: '309px',
+              height: '280px',
+              flexShrink: 0,
+              borderRadius: '50px',
+              border: '1px solid #000',
+              background: '#FFF',
+              fontFamily: '"Zen Kaku Gothic Antique"',
+              fontSize: '32px',
+              fontStyle: 'normal',
+              fontWeight: 400,
+              lineHeight: 'normal',
+              textAlign: 'center',
+              color: '#000'
+            }}
+          >
+            {/* Check Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="50"
+              height="36"
+              viewBox="0 0 50 36"
+              fill="none"
+              style={{
+                width: '42.667px',
+                height: '29.333px',
+                flexShrink: 0,
+                marginBottom: '20px'
+              }}
+            >
+              <path
+                d="M45.9999 3.33325L16.6666 32.6666L3.33325 19.3333"
+                stroke="#702B9D"
+                strokeWidth="6.66667"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            {/* Text */}
+            <p style={{ width: '283px', margin: 0 }}>
+              Attendance Successful!
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
