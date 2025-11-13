@@ -42,7 +42,7 @@ export default function AttendancePage() {
       // meeting_number를 포함한 데이터 준비
       const attendanceData = {
         ...formData,
-        meeting_number: meetingNumber ? parseInt(meetingNumber) : 0 // URL에서 읽은 meeting_number, 없으면 기본값 0
+        meeting_number: meetingNumber ? parseInt(meetingNumber) : -1 // URL에서 읽은 meeting_number, 없으면 기본값 0
       };
 
       console.log('전송할 데이터:', attendanceData); // 디버깅용
