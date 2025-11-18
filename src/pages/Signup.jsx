@@ -448,7 +448,7 @@ export default function SignUpPage() {
       {/* Footer */}
       <footer className="py-12 text-center">
         <a
-          href="https://instagram.com"
+          href="https://instagram.com/nyu_likelion"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center w-10 h-10 hover:opacity-70 transition-opacity"
