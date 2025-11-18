@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
@@ -14,6 +14,9 @@ export default function AttendancePage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false); // 테스트용 - 나중에 false로 변경
+
+  const [showActivitiesMenu, setShowActivitiesMenu] = useState(false);
+  const closeTimer = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -108,9 +111,52 @@ export default function AttendancePage() {
           <a href="#mentoring" className="text-[20px] hover:text-nyu-purple">
             Mentoring
           </a>
-          <a href="#activities" className="text-[20px] hover:text-nyu-purple">
-            Activities
-          </a>
+          {/* Activities Dropdown Menu */}
+          <div
+            className="relative"
+            onMouseEnter={() => {
+              if (closeTimer.current) clearTimeout(closeTimer.current);
+              setShowActivitiesMenu(true);
+            }}
+            onMouseLeave={() => {
+              closeTimer.current = setTimeout(
+                () => setShowActivitiesMenu(false),
+                100
+              );
+            }}
+          >
+            <span className="text-[20px] hover:text-nyu-purple cursor-pointer">
+              Activities
+            </span>
+            {showActivitiesMenu && (
+              <div
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-black rounded-lg shadow-lg py-2 min-w-[120px] z-50"
+                onMouseEnter={() => {
+                  if (closeTimer.current) clearTimeout(closeTimer.current);
+                }}
+                onMouseLeave={() => {
+                  closeTimer.current = setTimeout(
+                    () => setShowActivitiesMenu(false),
+                    400
+                  );
+                }}
+              >
+                <a
+                  href="#events"
+                  className="block px-4 py-2 text-[16px] hover:bg-gray-100 hover:text-nyu-purple transition-colors"
+                >
+                  Events
+                </a>
+                <a
+                  href="#projects"
+                  className="block px-4 py-2 text-[16px] hover:bg-gray-100 hover:text-nyu-purple transition-colors"
+                >
+                  Projects
+                </a>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={() => navigate('/attendance')}
             className="text-[20px] hover:text-nyu-purple bg-transparent border-none cursor-pointer"

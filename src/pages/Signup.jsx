@@ -45,13 +45,87 @@ export default function SignUpPage() {
     setLoading(true);
     setMessage('');
 
-    // Graduate Year 숫자 검증
+    // 1. 공백 검사
+    if (
+      !formData.school_email.trim() ||
+      !formData.password.trim() ||
+      !formData.korean_name.trim() ||
+      !formData.english_name.trim() ||
+      !formData.graduate_year.trim() ||
+      !formData.current_university.trim() ||
+      !formData.team.trim()
+    ) {
+      setMessage('All fields are required.');
+      setLoading(false);
+      return;
+    }
+
+    // 2-1. Korean Name 검증 (한글만)
+    if (!/^[가-힣]+$/.test(formData.korean_name)) {
+      setMessage('Korean Name must contain only Korean characters.');
+      setLoading(false);
+      return;
+    }
+
+    // 2-2. Korean Name 길이 제한
+    if (formData.korean_name.length > 10) {
+      setMessage('Korean Name must be at most 10 characters.');
+      setLoading(false);
+      return;
+    }
+
+    // 3-1. English Name 검증 (영어 + 자동 uppercase formatting)
+    if (!/^[A-Za-z\s]+$/.test(formData.english_name)) {
+      setMessage('English name must contain only English letters.');
+      setLoading(false);
+      return;
+    }
+
+    // 3-2. English Name 길이 제한
+    if (formData.english_name.length > 50) {
+      setMessage('English Name must be at most 50 characters.');
+      setLoading(false);
+      return;
+    }
+
+    // 3-3. English Name 자동 Capitalization
+    formData.english_name = formData.english_name
+      .split(' ')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+
+    // 4. 이메일 검증 (@ + .edu 포함)
+    if (
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.edu$/.test(formData.school_email)
+    ) {
+      setMessage('School Email must be a valid email address.');
+      setLoading(false);
+      return;
+    }
+
+    // 5. Password 공백 금지
+    if (/\s/.test(formData.password)) {
+      setMessage('Password cannot contain spaces.');
+      setLoading(false);
+      return;
+    }
+
+    // 6-1. Graduation Year 숫자 확인 (이미 입력 단계에서 제한 걸었지만 한 번 더!)
     if (!/^\d+$/.test(formData.graduate_year)) {
       setMessage('Graduation year must contain only integers.');
       setLoading(false);
       return;
     }
 
+    // 6-2. Graduation Year 범위 확인 (1950 ~ 2050)
+    const yearNum = Number(formData.graduate_year);
+    if (yearNum < 1950 || yearNum > 2050) {
+      setMessage('Graduation year must be between 1950 and 2050.');
+      setLoading(false);
+      return;
+    }
+
+    // 에러 조건들을 모두 통과하면 여기서 백엔드 요청
     try {
       // 여기에 실제 백엔드 API 주소를 입력하세요
       const response = await fetch(
@@ -290,10 +364,15 @@ export default function SignUpPage() {
                   Graduation Year:
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="graduate_year"
                   value={formData.graduate_year}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    // 숫자만 허용 + 길이 제한 4
+                    if (/^\d{0,4}$/.test(e.target.value)) {
+                      handleChange(e);
+                    }
+                  }}
                   required
                   min="1950"
                   max="2050"
