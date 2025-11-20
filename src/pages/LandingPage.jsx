@@ -211,7 +211,7 @@ export default function LikeLionNYU() {
           href="https://linktr.ee/nyu_likelion?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnS1LXQBhcZAq5tVKjJlspGPGFoiBDd1QY-Ij6_uvyw8y6-_SoadTm2y4tcjI_aem_gcI0U_vmyQWrZxwiatd4Ag"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 mb-[135px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="inline-block px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 mb-[135px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
         >
           Join Us
         </a>
