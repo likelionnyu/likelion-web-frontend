@@ -3,7 +3,7 @@
 
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NYULogo from '../NYU_logo.jpg';
+import NYULogo from '../NYU_logo.png';
 
 export default function LikeLionNYU() {
   const navigate = useNavigate();
