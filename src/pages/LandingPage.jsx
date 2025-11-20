@@ -94,11 +94,11 @@ export default function LikeLionNYU() {
     );
   };
 
-  const handleCardHover = (index, isHovering) => {
+  const handleCardHover = (globalIndex, isHovering) => {
     if (isHovering) {
-      setFlippedCards([...flippedCards, index]);
+      setFlippedCards((prev) => [...prev, globalIndex]);
     } else {
-      setFlippedCards(flippedCards.filter((i) => i !== index));
+      setFlippedCards((prev) => prev.filter((i) => i !== globalIndex));
     }
   };
 
@@ -232,26 +232,28 @@ export default function LikeLionNYU() {
           <div className="grid grid-cols-4 gap-[30px]">
             {admins
               .slice(currentAdmin, currentAdmin + 4)
-              .map((admin, index) => (
-                <div key={index}>
-                  <div className="text-center text-[24px] font-bold mb-[15px]">
-                    {admin.position}
-                  </div>
-                  <div
-                    onMouseEnter={() => handleCardHover(index, true)}
-                    onMouseLeave={() => handleCardHover(index, false)}
-                    className="relative cursor-pointer"
-                    style={{ perspective: '1000px', height: '400px' }}
-                  >
+              .map((admin, index) => {
+                const globalIndex = currentAdmin + index;
+                return (
+                  <div key={globalIndex}>
+                    <div className="text-center text-[24px] font-bold mb-[15px]">
+                      {admin.position}
+                    </div>
                     <div
-                      className="relative w-full h-full transition-transform duration-1000"
-                      style={{
-                        transformStyle: 'preserve-3d',
-                        transform: flippedCards.includes(index)
-                          ? 'rotateY(180deg)'
-                          : 'rotateY(0deg)',
-                      }}
+                      onMouseEnter={() => handleCardHover(globalIndex, true)}
+                      onMouseLeave={() => handleCardHover(globalIndex, false)}
+                      className="relative cursor-pointer"
+                      style={{ perspective: '1000px', height: '400px' }}
                     >
+                      <div
+                        className="relative w-full h-full transition-transform duration-1000"
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transform: flippedCards.includes(globalIndex)
+                            ? 'rotateY(180deg)'
+                            : 'rotateY(0deg)',
+                        }}
+                      >
                       {/* Front Side */}
                       <div
                         className="absolute w-full h-full bg-white rounded-[20px] p-[15px] text-center shadow-card"
@@ -281,7 +283,8 @@ export default function LikeLionNYU() {
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
           </div>
 
           <button
