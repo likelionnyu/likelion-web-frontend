@@ -171,12 +171,12 @@ export default function LikeLionNYU() {
                 >
                   Events
                 </a>
-                <a
-                  href="#projects"
-                  className="block px-4 py-2 text-[16px] hover:bg-gray-100 hover:text-nyu-purple transition-colors"
+                <button
+                  onClick={() => navigate('/projects')}
+                  className="block w-full text-left px-4 py-2 text-[16px] hover:bg-gray-100 hover:text-nyu-purple transition-colors bg-transparent border-none cursor-pointer"
                 >
                   Projects
-                </a>
+                </button>
               </div>
             )}
           </div>

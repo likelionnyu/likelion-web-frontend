@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import LikeLionNYU from './pages/LandingPage';
 import AttendancePage  from './pages/Attendance';
 import AdminPage from './pages/AdminPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
       </Routes>
     </Router>
   );
