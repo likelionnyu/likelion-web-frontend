@@ -214,10 +214,6 @@ function EventsPage() {
           <a href="/#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
-          <a href="/#mentoring" className="text-[20px] hover:text-nyu-purple">
-            Mentoring
-          </a>
-
           <div
             className="relative"
             onMouseEnter={() => {
@@ -259,12 +255,6 @@ function EventsPage() {
             )}
           </div>
 
-          <button
-            onClick={() => navigate('/attendance')}
-            className="text-[20px] hover:text-nyu-purple bg-transparent border-none cursor-pointer"
-          >
-            Attendance
-          </button>
         </div>
 
         <button
