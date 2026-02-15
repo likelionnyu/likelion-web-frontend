@@ -99,14 +99,14 @@ function CalendarPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-nyu-purple to-purple-800 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <div>
-              <h1 className="text-3xl font-bold">멋쟁이사자처럼 캘린더</h1>
-              <p className="text-purple-200 mt-1">팀 일정을 한눈에 확인하세요</p>
+              <h1 className="text-2xl md:text-3xl font-bold">멋쟁이사자처럼 캘린더</h1>
+              <p className="text-purple-200 mt-1 text-sm md:text-base">팀 일정을 한눈에 확인하세요</p>
             </div>
             <button
               onClick={() => navigate('/')}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all duration-200 backdrop-blur-sm"
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all duration-200 backdrop-blur-sm self-start sm:self-auto text-sm md:text-base"
             >
               홈으로
             </button>
@@ -145,7 +145,7 @@ function CalendarPage() {
               events={events}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: 700 }}
+              style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? 450 : 700 }}
               eventPropGetter={eventStyleGetter}
               onSelectEvent={handleSelectEvent}
               culture="ko"
