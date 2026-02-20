@@ -19,6 +19,12 @@ export default function AdminQR() {
     setStatus('Generating QR Code...');
 
     try {
+      // 백엔드 API 호출
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/qr-create?meeting_number=${meetingNumber}`
+      );
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
       // QR 안에 들어갈 실제 URL
       const qrData = `${window.location.origin}/attendance?meeting=${meetingNumber}`;
 
@@ -36,7 +42,7 @@ export default function AdminQR() {
       setStatus(`QR Code for Meeting #${meetingNumber}`);
     } catch (error) {
       console.error('QR generation error:', error);
-      setStatus('Failed to generate QR Code.');
+      setStatus(`Failed to generate QR Code: ${error.message}`);
     }
   };
 
