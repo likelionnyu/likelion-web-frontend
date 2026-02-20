@@ -14,6 +14,7 @@ import CalendarPage from './pages/CalendarPage';
 import AdminCalendarPage from './pages/AdminCalendarPage';
 import EventsPage from './pages/EventsPage';
 import AdminProjects from './pages/AdminProjects';
+import AdminAttendance from './pages/AdminAttendance';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/calendar" element={<AdminCalendarPage />} />
         <Route path="/admin/projects" element={<AdminProjects />} />
+        <Route path="/admin/attendance" element={<AdminAttendance />} />
       </Routes>
     </Router>
   );
