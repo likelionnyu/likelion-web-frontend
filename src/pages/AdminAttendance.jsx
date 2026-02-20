@@ -9,12 +9,12 @@ export default function AdminAttendance() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/adminpage/attendance_list`
+        `${process.env.REACT_APP_API_URL}/api/adminpage/attendance_list`,
       );
       const data = await res.json();
       // 마지막 미팅(meeting_number 높은 순) 기준 정렬
       const sorted = (data.attendance || []).sort(
-        (a, b) => b.meeting_number - a.meeting_number
+        (a, b) => b.meeting_number - a.meeting_number,
       );
       setRecords(sorted);
     } catch (err) {
@@ -65,12 +65,14 @@ export default function AdminAttendance() {
                       <td className="px-4 py-3">
                         <span
                           className={`px-[12px] py-[4px] rounded-full text-[14px] ${
-                            r.status
+                            r.status === 'Present'
                               ? 'bg-green-900 text-green-300'
-                              : 'bg-red-900 text-red-300'
+                              : r.status === 'Late'
+                                ? 'bg-yellow-900 text-yellow-300'
+                                : 'bg-red-900 text-red-300'
                           }`}
                         >
-                          {r.status ? 'Present' : 'Absent'}
+                          {r.status}
                         </span>
                       </td>
                     </tr>
