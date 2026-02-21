@@ -10,7 +10,6 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import ScrollToTop from './ScrollToTop';
 import AdminQR from './pages/AdminQR';
 import AdminUsers from './pages/AdminUsers';
-import CalendarPage from './pages/CalendarPage';
 import AdminCalendarPage from './pages/AdminCalendarPage';
 import EventsPage from './pages/EventsPage';
 import AdminProjects from './pages/AdminProjects';
