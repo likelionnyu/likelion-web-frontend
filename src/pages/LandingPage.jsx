@@ -107,12 +107,12 @@ export default function LikeLionNYU() {
 
       {/* Hero Section */}
       <section className="text-center py-[60px] md:py-[100px] px-[16px]">
-        <h1 className="text-[48px] md:text-[96px] font-bold mb-[40px] md:mb-[60px] flex flex-wrap items-center justify-center leading-tight md:leading-normal">
-          LikeLion <span className="mx-[8px] md:mx-[16px]">x</span> <span className="text-nyu-purple">NYU</span>
+        <h1 className="text-[30px] sm:text-[42px] md:text-[64px] lg:text-[96px] font-bold mb-[40px] md:mb-[60px] flex items-center justify-center leading-tight md:leading-normal whitespace-nowrap">
+          LikeLion <span className="mx-[6px] sm:mx-[10px] md:mx-[16px]">x</span> <span className="text-nyu-purple">NYU</span>
           <img
             src={NYULogo}
             alt="NYU Logo"
-            className="h-[48px] md:h-[96px] ml-[8px] md:ml-[16px]"
+            className="h-[30px] sm:h-[42px] md:h-[64px] lg:h-[96px] ml-[6px] sm:ml-[10px] md:ml-[16px]"
           />
         </h1>
 

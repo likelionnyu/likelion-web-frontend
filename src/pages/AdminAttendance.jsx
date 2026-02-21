@@ -32,8 +32,8 @@ export default function AdminAttendance() {
     <div className="min-h-screen bg-[#0a0a0a]">
       <AdminNav />
 
-      <div className="px-[32px] py-[40px]">
-        <h1 className="text-[48px] font-bold text-white text-center mb-[40px]">
+      <div className="px-4 md:px-[32px] py-[40px]">
+        <h1 className="text-[32px] md:text-[48px] font-bold text-white text-center mb-[40px]">
           Attendance Session
         </h1>
 
@@ -43,7 +43,8 @@ export default function AdminAttendance() {
           </p>
         ) : (
           <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-gray-800">
-            <table className="w-full text-gray-300">
+            <div className="overflow-x-auto">
+            <table className="min-w-[500px] w-full text-gray-300">
               <thead className="bg-[#2a2a2a] text-white">
                 <tr>
                   <th className="px-4 py-3 text-left">Meeting #</th>
@@ -89,6 +90,7 @@ export default function AdminAttendance() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>
