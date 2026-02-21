@@ -22,22 +22,22 @@ export default function AdminNav() {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   };
 
-  const activeClass = 'px-[20px] py-[10px] md:px-[28px] md:py-[13px] rounded-full text-[16px] md:text-[20px] bg-[#2a2a2a] text-white border border-gray-700';
-  const inactiveClass = 'px-[20px] py-[10px] md:px-[28px] md:py-[13px] border border-gray-700 rounded-full text-[16px] md:text-[20px] text-gray-300 hover:bg-[#2a2a2a]';
+  const activeClass = 'px-[20px] py-[10px] lg:px-[28px] lg:py-[13px] rounded-full text-[16px] lg:text-[20px] bg-[#2a2a2a] text-white border border-gray-700';
+  const inactiveClass = 'px-[20px] py-[10px] lg:px-[28px] lg:py-[13px] border border-gray-700 rounded-full text-[16px] lg:text-[20px] text-gray-300 hover:bg-[#2a2a2a]';
 
   return (
-    <nav className="relative flex items-center w-full px-4 md:px-[32px] py-[16px] bg-[#1a1a1a] border-b border-gray-800">
+    <nav className="relative flex items-center w-full px-4 lg:px-[32px] py-[16px] bg-[#1a1a1a] border-b border-gray-800">
       {/* Logo */}
       <div
         onClick={() => navigate('/admin')}
-        className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity text-white leading-normal md:leading-normal"
+        className="flex items-center text-[20px] lg:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity text-white whitespace-nowrap shrink-0"
       >
         LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-        <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
+        <img src={NYULogo} alt="NYU Logo" className="h-[20px] lg:h-[32px] ml-[8px]" />
       </div>
 
       {/* Desktop nav items */}
-      <div className="hidden md:flex items-center gap-[16px] ml-auto">
+      <div className="hidden lg:flex items-center gap-[16px] ml-auto">
         {/* Attendance QR */}
         <button
           onClick={() => navigate('/admin/qr')}
@@ -112,14 +112,14 @@ export default function AdminNav() {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden ml-auto text-white text-[24px] leading-none p-2"
+        className="lg:hidden ml-auto text-white text-[24px] leading-none p-2"
       >
         {mobileOpen ? '✕' : '☰'}
       </button>
 
       {/* Mobile dropdown menu */}
       {mobileOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50 p-4 flex flex-col gap-2">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50 p-4 flex flex-col gap-2">
           <button
             onClick={() => { navigate('/admin/qr'); setMobileOpen(false); }}
             className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${

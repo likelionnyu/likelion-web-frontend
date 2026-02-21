@@ -62,16 +62,16 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 lg:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
+          className="flex items-center text-[20px] lg:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity whitespace-nowrap shrink-0"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-          <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
+          <img src={NYULogo} alt="NYU Logo" className="h-[20px] lg:h-[32px] ml-[8px]" />
         </div>
 
-        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto">
+        <div className="hidden lg:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto">
           <a href="#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -91,7 +91,7 @@ export default function LoginPage() {
 
         <button
           onClick={() => navigate('/login')}
-          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px]"
+          className="hidden lg:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px]"
         >
           Log In
         </button>
@@ -99,7 +99,7 @@ export default function LoginPage() {
         {/* Mobile Log In button */}
         <button
           onClick={() => navigate('/login')}
-          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
+          className="lg:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
