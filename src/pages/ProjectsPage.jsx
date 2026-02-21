@@ -58,34 +58,34 @@ export default function ProjectsPage() {
     <div
       key={index}
       onClick={() => navigate(`/projects/${project.id}`)}
-      className="bg-white border-2 border-gray-200 rounded-[20px] p-[32px] hover:border-nyu-purple hover:shadow-lg transition-all duration-300 cursor-pointer"
+      className="bg-white border-2 border-gray-200 rounded-[20px] p-4 md:p-[32px] hover:border-nyu-purple hover:shadow-lg transition-all duration-300 cursor-pointer"
     >
       {/* Project Header */}
-      <div className="flex items-start justify-between mb-[20px]">
-        <div>
-          <h3 className="text-[28px] font-bold mb-[8px]">{project.name}</h3>
-          <p className="text-gray-600 text-[14px]">{project.team}</p>
+      <div className="flex items-start justify-between mb-[16px] md:mb-[20px] gap-3">
+        <div className="min-w-0">
+          <h3 className="text-[20px] md:text-[28px] font-bold mb-[6px] md:mb-[8px] leading-tight md:leading-normal">{project.name}</h3>
+          <p className="text-gray-600 text-[13px] md:text-[14px]">{project.team}</p>
         </div>
-        <span className={`${project.color} text-white px-[16px] py-[6px] rounded-full text-[12px] font-semibold`}>
+        <span className={`${project.color} text-white px-[12px] py-[5px] rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap shrink-0`}>
           {project.status}
         </span>
       </div>
 
       {/* Description */}
-      <p className="text-gray-700 leading-relaxed mb-[24px]">
+      <p className="text-gray-700 leading-relaxed mb-[16px] md:mb-[24px] text-[14px] md:text-base">
         {project.description}
       </p>
 
       {/* Tech Stack */}
-      <div className="mb-[20px]">
-        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[12px]">
+      <div className="mb-[16px] md:mb-[20px]">
+        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[10px] md:mb-[12px]">
           Tech Stack
         </h4>
-        <div className="flex flex-wrap gap-[8px]">
+        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
           {project.techStack.map((tech, i) => (
             <span
               key={i}
-              className="bg-gray-100 text-gray-700 px-[12px] py-[6px] rounded-full text-[14px]"
+              className="bg-gray-100 text-gray-700 px-[10px] md:px-[12px] py-[4px] md:py-[6px] rounded-full text-[12px] md:text-[14px]"
             >
               {tech}
             </span>
@@ -95,14 +95,14 @@ export default function ProjectsPage() {
 
       {/* Team Members */}
       <div>
-        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[12px]">
+        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[10px] md:mb-[12px]">
           Team Members ({project.members.length})
         </h4>
-        <div className="flex flex-wrap gap-[8px]">
+        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
           {project.members.map((member, i) => (
             <span
               key={i}
-              className="bg-nyu-purple bg-opacity-10 text-nyu-purple px-[12px] py-[6px] rounded-full text-[14px] font-medium"
+              className="bg-nyu-purple bg-opacity-10 text-nyu-purple px-[10px] md:px-[12px] py-[4px] md:py-[6px] rounded-full text-[12px] md:text-[14px] font-medium"
             >
               {member}
             </span>
@@ -115,16 +115,16 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-          <img src={NYULogo} alt="NYU Logo" className="h-[32px] ml-[8px]" />
+          <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
         </div>
 
-        <div className="flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
+        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
           <a href="/#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -144,43 +144,51 @@ export default function ProjectsPage() {
 
         <button
           onClick={() => navigate('/login')}
-          className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 text-[20px] font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+        >
+          Log In
+        </button>
+
+        {/* Mobile Log In button */}
+        <button
+          onClick={() => navigate('/login')}
+          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
       </nav>
 
       {/* Header Section */}
-      <section className="py-[60px] px-[16px] bg-white">
+      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-[64px] font-bold mb-[24px]">
+          <h1 className="text-[40px] md:text-[64px] font-bold mb-[16px] md:mb-[24px] leading-tight md:leading-normal">
             Our <span className="text-nyu-purple">Teams</span>
           </h1>
-          <p className="text-gray-600 text-[20px] mb-[40px] max-w-2xl mx-auto">
+          <p className="text-gray-600 text-[16px] md:text-[20px] mb-[32px] md:mb-[40px] max-w-2xl mx-auto leading-relaxed">
             Explore the innovative projects our talented teams are working on. From AI-powered solutions to campus management tools, we're building the future together.
           </p>
         </div>
       </section>
 
       {/* Study Teams Section */}
-      <section className="py-[60px] px-[16px] bg-gray-50">
+      <section className="py-[40px] md:py-[60px] px-[16px] bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-[48px] font-bold mb-[48px]">
+          <h2 className="text-[32px] md:text-[48px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
             <span className="text-nyu-purple">Study</span> Teams
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
             {studyTeams.map((project, index) => renderProjectCard(project, index))}
           </div>
         </div>
       </section>
 
       {/* Project Teams Section */}
-      <section className="py-[60px] px-[16px] bg-white">
+      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-[48px] font-bold mb-[48px]">
+          <h2 className="text-[32px] md:text-[48px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
             <span className="text-nyu-purple">Project</span> Teams
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
             {projectTeams.map((project, index) => renderProjectCard(project, index))}
           </div>
         </div>

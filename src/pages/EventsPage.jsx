@@ -30,6 +30,7 @@ function EventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [calHeight, setCalHeight] = useState(() => window.innerWidth < 768 ? 450 : 700);
 
   // Modal states
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -61,6 +62,12 @@ function EventsPage() {
       return () => clearTimeout(timer);
     }
   }, [showSuccessPopup]);
+
+  useEffect(() => {
+    const handleResize = () => setCalHeight(window.innerWidth < 768 ? 450 : 700);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const fetchEvents = async (date) => {
     try {
@@ -198,16 +205,16 @@ function EventsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-          <img src={NYULogo} alt="NYU Logo" className="h-[32px] ml-[8px]" />
+          <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
         </div>
 
-        <div className="flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
+        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
           <a href="/#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -223,12 +230,19 @@ function EventsPage() {
           >
             Projects
           </button>
-
         </div>
 
         <button
           onClick={() => navigate('/login')}
-          className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+        >
+          Log In
+        </button>
+
+        {/* Mobile Log In button */}
+        <button
+          onClick={() => navigate('/login')}
+          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
@@ -236,15 +250,15 @@ function EventsPage() {
 
       {/* Page Header */}
       <div className="bg-gradient-to-r from-nyu-purple to-purple-800 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-4xl font-bold">Events</h1>
-              <p className="text-purple-200 mt-2 text-lg">멋쟁이사자처럼 NYU 일정을 확인하세요</p>
+              <h1 className="text-[28px] md:text-4xl font-bold leading-tight md:leading-normal">Events</h1>
+              <p className="text-purple-200 mt-1 md:mt-2 text-[14px] md:text-lg">멋쟁이사자처럼 NYU 일정을 확인하세요</p>
             </div>
             <button
               onClick={openAddForm}
-              className="px-6 py-3 bg-ll-orange hover:bg-orange-600 text-white rounded-lg transition-all duration-200 font-semibold shadow-button hover:shadow-hover hover:-translate-y-1"
+              className="px-4 md:px-6 py-2 md:py-3 bg-ll-orange hover:bg-orange-600 text-white rounded-lg transition-all duration-200 font-semibold shadow-button hover:shadow-hover hover:-translate-y-1 text-[14px] md:text-base"
             >
               + 일정 추가
             </button>
@@ -253,14 +267,14 @@ function EventsPage() {
       </div>
 
       {/* Category Legend */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-custom">
-          <h3 className="font-semibold mb-3 text-gray-700">카테고리</h3>
-          <div className="flex flex-wrap gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-6">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 shadow-custom">
+          <h3 className="font-semibold mb-2 md:mb-3 text-gray-700 text-[14px] md:text-base">카테고리</h3>
+          <div className="flex flex-wrap gap-3 md:gap-4">
             {Object.entries(eventCategories).map(([category, style]) => (
               <div key={category} className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded" style={{ backgroundColor: style.color }} />
-                <span className="text-gray-600 text-sm">{category}</span>
+                <div className="w-3 h-3 md:w-4 md:h-4 rounded" style={{ backgroundColor: style.color }} />
+                <span className="text-gray-600 text-xs md:text-sm">{category}</span>
               </div>
             ))}
           </div>
@@ -268,8 +282,8 @@ function EventsPage() {
       </div>
 
       {/* Calendar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-lg shadow-card border border-gray-200 p-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
+        <div className="bg-white rounded-lg shadow-card border border-gray-200 p-3 md:p-6">
           {loading ? (
             <div className="flex justify-center items-center h-96">
               <div className="text-nyu-purple text-xl">로딩 중...</div>
@@ -280,7 +294,7 @@ function EventsPage() {
               events={events}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: 700 }}
+              style={{ height: calHeight }}
               eventPropGetter={eventStyleGetter}
               onSelectEvent={handleSelectEvent}
               onNavigate={handleNavigate}
@@ -310,12 +324,12 @@ function EventsPage() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-card max-w-2xl w-full max-h-[80vh] overflow-y-auto">
             <div
-              className="p-6 border-l-8 rounded-t-lg"
+              className="p-4 md:p-6 border-l-8 rounded-t-lg"
               style={{ borderColor: eventCategories[selectedEvent.category]?.color || '#000' }}
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">{selectedEvent.title}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight md:leading-normal">{selectedEvent.title}</h2>
                   <span
                     className="inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold"
                     style={{
@@ -337,11 +351,11 @@ function EventsPage() {
               <div className="space-y-4 mt-6">
                 {/* Date */}
                 <div className="flex items-start gap-3">
-                  <svg className="w-5 h-5 text-gray-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   <div>
-                    <p className="text-gray-700 font-medium">
+                    <p className="text-gray-700 font-medium text-[14px] md:text-base">
                       {format(selectedEvent.start, 'yyyy년 M월 d일 (EEE) HH:mm', { locale: ko })}
                     </p>
                     <p className="text-gray-500 text-sm">
@@ -353,21 +367,21 @@ function EventsPage() {
                 {/* Location */}
                 {selectedEvent.location && (
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gray-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <p className="text-gray-700">{selectedEvent.location}</p>
+                    <p className="text-gray-700 text-[14px] md:text-base">{selectedEvent.location}</p>
                   </div>
                 )}
 
                 {/* Description */}
                 {selectedEvent.description && (
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gray-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
                     </svg>
-                    <p className="text-gray-700 whitespace-pre-wrap">{selectedEvent.description}</p>
+                    <p className="text-gray-700 whitespace-pre-wrap text-[14px] md:text-base">{selectedEvent.description}</p>
                   </div>
                 )}
               </div>
@@ -375,13 +389,13 @@ function EventsPage() {
               <div className="mt-6 pt-4 border-t flex gap-3">
                 <button
                   onClick={handleDeleteEvent}
-                  className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 font-semibold"
+                  className="px-4 md:px-6 py-2 md:py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 font-semibold text-[14px] md:text-base"
                 >
                   삭제
                 </button>
                 <button
                   onClick={() => { setShowDetailModal(false); setSelectedEvent(null); }}
-                  className="flex-1 py-3 bg-nyu-purple hover:bg-purple-800 text-white rounded-lg transition-colors duration-200 font-semibold"
+                  className="flex-1 py-2 md:py-3 bg-nyu-purple hover:bg-purple-800 text-white rounded-lg transition-colors duration-200 font-semibold text-[14px] md:text-base"
                 >
                   닫기
                 </button>
@@ -395,9 +409,9 @@ function EventsPage() {
       {showFormModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-4 md:p-6 border-b border-gray-200">
               <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-gray-900">일정 추가</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight md:leading-normal">일정 추가</h2>
                 <button
                   onClick={() => setShowFormModal(false)}
                   className="text-gray-400 hover:text-gray-600 text-2xl"
@@ -407,7 +421,7 @@ function EventsPage() {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4 md:space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">제목 *</label>
                 <input
@@ -508,7 +522,7 @@ function EventsPage() {
                 <button
                   type="button"
                   onClick={() => setShowFormModal(false)}
-                  className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors duration-200 font-semibold"
+                  className="px-4 md:px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors duration-200 font-semibold"
                 >
                   취소
                 </button>

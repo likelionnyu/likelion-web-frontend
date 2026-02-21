@@ -86,18 +86,18 @@ export default function AdminUsers() {
       <AdminNav />
 
       {/* CONTENT */}
-      <div className="px-[32px] py-[40px]">
-        <h1 className="text-[48px] font-bold text-white text-center mb-[40px]">
+      <div className="px-4 md:px-[32px] py-[40px]">
+        <h1 className="text-[32px] md:text-[48px] font-bold text-white text-center mb-[40px] leading-tight md:leading-normal">
           User Management
         </h1>
 
         {loading ? (
-          <p className="text-white text-center text-[24px]">
+          <p className="text-white text-center text-[20px] md:text-[24px]">
             Loading members...
           </p>
         ) : (
-          <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-gray-800">
-            <table className="w-full text-gray-300">
+          <div className="bg-[#1a1a1a] rounded-lg overflow-x-auto border border-gray-800">
+            <table className="w-full text-gray-300 min-w-[700px]">
               <thead className="bg-[#2a2a2a] text-white">
                 <tr>
                   <th className="px-4 py-3 text-left">ID</th>

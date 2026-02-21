@@ -191,16 +191,16 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-          <img src={NYULogo} alt="NYU Logo" className="h-[32px] ml-[8px]" />
+          <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
         </div>
 
-        <div className="flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto">
+        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto">
           <a href="#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -216,25 +216,32 @@ export default function SignUpPage() {
           >
             Projects
           </button>
-
         </div>
 
         <button
           onClick={() => navigate('/login')}
-          className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 text-[20px] font-normal ml-[21px]"
+          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px]"
+        >
+          Log In
+        </button>
+
+        {/* Mobile Log In button */}
+        <button
+          onClick={() => navigate('/login')}
+          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
       </nav>
 
       {/* Main Content */}
-      <div className="px-[32px] py-[48px]">
-        <h1 className="text-[64px] font-bold mb-[48px]">Sign Up</h1>
+      <div className="px-4 md:px-[32px] py-[32px] md:py-[48px]">
+        <h1 className="text-[36px] md:text-[64px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">Sign Up</h1>
 
         <div className="max-w-xl mx-auto">
-          <div className="bg-white border border-black rounded-[50px] px-[72px] pt-[30px] pb-[43px]">
+          <div className="bg-white border border-black rounded-[30px] md:rounded-[50px] px-6 md:px-[72px] pt-[30px] pb-[43px]">
             {/* Title */}
-            <h2 className="text-[48px] font-bold text-center mb-[48px]">
+            <h2 className="text-[28px] md:text-[48px] font-bold text-center mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
               LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
             </h2>
 
@@ -242,7 +249,7 @@ export default function SignUpPage() {
             <div className="space-y-[16px]">
               {/* Korean Name */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Korean Name:
                 </label>
                 <input
@@ -257,7 +264,7 @@ export default function SignUpPage() {
 
               {/* English Name */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   English Name:
                 </label>
                 <input
@@ -272,7 +279,7 @@ export default function SignUpPage() {
 
               {/* School Email */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   School Email:
                 </label>
                 <input
@@ -288,7 +295,7 @@ export default function SignUpPage() {
 
               {/* Password */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Password:
                 </label>
                 <input
@@ -303,7 +310,7 @@ export default function SignUpPage() {
 
               {/* Current University */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Current University:
                 </label>
                 <select
@@ -348,7 +355,7 @@ export default function SignUpPage() {
 
               {/* Graduation Year */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Graduation Year:
                 </label>
                 <input
@@ -372,7 +379,7 @@ export default function SignUpPage() {
 
               {/* Team */}
               <div>
-                <label className="block text-[20px] font-bold mb-[12px]">
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Team (Project/Study):
                 </label>
                 <select
@@ -380,7 +387,7 @@ export default function SignUpPage() {
                   value={formData.team}
                   onChange={handleChange}
                   required
-                  className="w-full px-[16px] py-[9px] border border-black rounded-full 
+                  className="w-full px-[16px] py-[9px] border border-black rounded-full
                             bg-white focus:outline-none focus:border-nyu-purple text-[16px]
                             appearance-none"
                 >

@@ -48,8 +48,8 @@ export default function AdminQR() {
       <AdminNav />
 
       {/* Main QR Generator */}
-      <div className="flex flex-col items-center justify-center mt-[80px] px-[32px]">
-        <h1 className="text-[48px] font-bold text-white mb-[32px]">
+      <div className="flex flex-col items-center justify-center mt-[40px] md:mt-[80px] px-4 md:px-[32px]">
+        <h1 className="text-[32px] md:text-[48px] font-bold text-white mb-[24px] md:mb-[32px] leading-tight md:leading-normal text-center">
           Attendance QR Generator
         </h1>
 
@@ -59,7 +59,7 @@ export default function AdminQR() {
           value={meetingNumber}
           onChange={(e) => setMeetingNumber(e.target.value)}
           placeholder="Enter meeting number"
-          className="px-[16px] py-[12px] text-[20px] w-[280px] rounded-lg bg-[#2a2a2a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-nyu-purple"
+          className="px-[16px] py-[12px] text-[18px] md:text-[20px] w-full max-w-[280px] rounded-lg bg-[#2a2a2a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-nyu-purple"
         />
 
         <button

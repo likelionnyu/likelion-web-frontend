@@ -162,7 +162,7 @@ export default function AdminProjects() {
     return (
       <div
         key={project.id}
-        className="bg-[#1a1a1a] border border-gray-700 rounded-[20px] p-[32px] flex flex-col gap-[16px]"
+        className="bg-[#1a1a1a] border border-gray-700 rounded-[20px] p-4 md:p-[32px] flex flex-col gap-[16px]"
       >
         {isEditing ? (
           /* ── Edit Mode ── */
@@ -311,23 +311,23 @@ export default function AdminProjects() {
       <AdminNav />
 
       {/* Page Content */}
-      <div className="max-w-6xl mx-auto px-[32px] py-[60px]">
-        <h1 className="text-[56px] font-bold text-white mb-[8px]">
+      <div className="max-w-6xl mx-auto px-4 md:px-[32px] py-[40px] md:py-[60px]">
+        <h1 className="text-[36px] md:text-[56px] font-bold text-white mb-[8px] leading-tight md:leading-normal">
           Projects <span className="text-nyu-purple">Management</span>
         </h1>
-        <p className="text-gray-400 text-[18px] mb-[60px]">
+        <p className="text-gray-400 text-[15px] md:text-[18px] mb-[40px] md:mb-[60px]">
           Edit or delete projects listed under Study Teams and Project Teams.
         </p>
 
         {/* Study Teams */}
-        <section className="mb-[64px]">
-          <h2 className="text-[36px] font-bold text-white mb-[32px]">
+        <section className="mb-[48px] md:mb-[64px]">
+          <h2 className="text-[24px] md:text-[36px] font-bold text-white mb-[24px] md:mb-[32px] leading-tight md:leading-normal">
             <span className="text-nyu-purple">Study</span> Teams
           </h2>
           {studyTeams.length === 0 ? (
             <p className="text-gray-500 text-[18px]">No study teams.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[32px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[32px]">
               {studyTeams.map(renderCard)}
             </div>
           )}
@@ -335,13 +335,13 @@ export default function AdminProjects() {
 
         {/* Project Teams */}
         <section>
-          <h2 className="text-[36px] font-bold text-white mb-[32px]">
+          <h2 className="text-[24px] md:text-[36px] font-bold text-white mb-[24px] md:mb-[32px] leading-tight md:leading-normal">
             <span className="text-nyu-purple">Project</span> Teams
           </h2>
           {projectTeams.length === 0 ? (
             <p className="text-gray-500 text-[18px]">No project teams.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[32px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[32px]">
               {projectTeams.map(renderCard)}
             </div>
           )}

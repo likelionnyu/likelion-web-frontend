@@ -104,20 +104,20 @@ export default function LikeLionNYU() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
           <img
             src={NYULogo}
             alt="NYU Logo"
-            className="h-[32px] ml-[8px]"
+            className="h-[20px] md:h-[32px] ml-[8px]"
           />
         </div>
 
-        <div className="flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
+        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
           <a href="#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -133,29 +133,36 @@ export default function LikeLionNYU() {
           >
             Projects
           </button>
-
         </div>
 
         <button
           onClick={() => navigate('/login')}
-          className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 text-[20px] font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+        >
+          Log In
+        </button>
+
+        {/* Mobile Log In button */}
+        <button
+          onClick={() => navigate('/login')}
+          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
       </nav>
 
       {/* Hero Section */}
-      <section className="text-center py-[100px] px-[16px]">
-        <h1 className="text-[96px] font-bold mb-[60px] flex items-center justify-center">
-          LikeLion <span className="mx-[16px]">x</span> <span className="text-nyu-purple">NYU</span>
+      <section className="text-center py-[60px] md:py-[100px] px-[16px]">
+        <h1 className="text-[48px] md:text-[96px] font-bold mb-[40px] md:mb-[60px] flex flex-wrap items-center justify-center leading-tight md:leading-normal">
+          LikeLion <span className="mx-[8px] md:mx-[16px]">x</span> <span className="text-nyu-purple">NYU</span>
           <img
             src={NYULogo}
             alt="NYU Logo"
-            className="h-[96px] ml-[16px]"
+            className="h-[48px] md:h-[96px] ml-[8px] md:ml-[16px]"
           />
         </h1>
 
-        <p className="max-w-[800px] mx-auto text-gray-600 leading-relaxed mb-[60px]">
+        <p className="max-w-[800px] mx-auto text-gray-600 leading-relaxed mb-[40px] md:mb-[60px]">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -169,39 +176,39 @@ export default function LikeLionNYU() {
           href="https://linktr.ee/nyu_likelion?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnS1LXQBhcZAq5tVKjJlspGPGFoiBDd1QY-Ij6_uvyw8y6-_SoadTm2y4tcjI_aem_gcI0U_vmyQWrZxwiatd4Ag"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 mb-[135px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="inline-block px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 mb-[80px] md:mb-[135px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
         >
           Join Us
         </a>
       </section>
 
       {/* Admin Section */}
-      <section className="bg-nyu-purple py-[45px] px-[41px] text-white relative">
-        <h2 className="text-[36px] text-center mb-[30px]">Meet Our Admin</h2>
+      <section className="bg-nyu-purple py-[45px] px-4 md:px-[41px] text-white relative">
+        <h2 className="text-[28px] md:text-[36px] text-center mb-[30px] leading-normal md:leading-normal">Meet Our Admin</h2>
 
         <div className="max-w-6xl mx-auto relative">
           <button
             onClick={prevAdmin}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-[36px] hover:scale-110 transition-transform"
+            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-[36px] hover:scale-110 transition-transform"
           >
             ‹
           </button>
 
-          <div className="grid grid-cols-4 gap-[30px]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[30px]">
             {admins
               .slice(currentAdmin, currentAdmin + 4)
               .map((admin, index) => {
                 const globalIndex = currentAdmin + index;
                 return (
                   <div key={globalIndex}>
-                    <div className="text-center text-[24px] font-bold mb-[15px]">
+                    <div className="text-center text-[16px] md:text-[24px] font-bold mb-[10px] md:mb-[15px] leading-normal md:leading-normal">
                       {admin.position}
                     </div>
                     <div
                       onMouseEnter={() => handleCardHover(globalIndex, true)}
                       onMouseLeave={() => handleCardHover(globalIndex, false)}
-                      className="relative cursor-pointer"
-                      style={{ perspective: '1000px', height: '400px' }}
+                      className="relative cursor-pointer h-[240px] md:h-[400px]"
+                      style={{ perspective: '1000px' }}
                     >
                       <div
                         className="relative w-full h-full transition-transform duration-1000"
@@ -214,27 +221,27 @@ export default function LikeLionNYU() {
                       >
                       {/* Front Side */}
                       <div
-                        className="absolute w-full h-full bg-white rounded-[20px] p-[15px] text-center shadow-card"
+                        className="absolute w-full h-full bg-white rounded-[20px] p-[10px] md:p-[15px] text-center shadow-card"
                         style={{ backfaceVisibility: 'hidden' }}
                       >
-                        <div className="bg-gray-300 rounded-[20px] aspect-[3/4] mb-[24px]"></div>
-                        <div className="text-black font-bold py-[9px]">
+                        <div className="bg-gray-300 rounded-[16px] md:rounded-[20px] aspect-[3/4] mb-[12px] md:mb-[24px]"></div>
+                        <div className="text-black font-bold py-[6px] md:py-[9px] text-[14px] md:text-base leading-normal md:leading-normal">
                           {admin.name}
                         </div>
                       </div>
 
                       {/* Back Side */}
                       <div
-                        className="absolute w-full h-full bg-white rounded-[20px] p-[15px] text-center shadow-card flex flex-col justify-center items-center"
+                        className="absolute w-full h-full bg-white rounded-[20px] p-[10px] md:p-[15px] text-center shadow-card flex flex-col justify-center items-center"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
                         }}
                       >
-                        <div className="text-black font-bold text-[20px] mb-[16px]">
+                        <div className="text-black font-bold text-[14px] md:text-[20px] mb-[10px] md:mb-[16px] leading-normal md:leading-normal">
                           {admin.name}
                         </div>
-                        <div className="text-gray-700 text-[14px] leading-relaxed px-[12px]">
+                        <div className="text-gray-700 text-[11px] md:text-[14px] leading-relaxed px-[6px] md:px-[12px]">
                           {admin.description}
                         </div>
                       </div>
@@ -245,37 +252,53 @@ export default function LikeLionNYU() {
               })}
           </div>
 
+          {/* Mobile prev/next buttons */}
+          <div className="flex justify-center gap-[24px] mt-[20px] md:hidden">
+            <button
+              onClick={prevAdmin}
+              className="text-[36px] hover:scale-110 transition-transform"
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextAdmin}
+              className="text-[36px] hover:scale-110 transition-transform"
+            >
+              ›
+            </button>
+          </div>
+
           <button
             onClick={nextAdmin}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-[36px] hover:scale-110 transition-transform"
+            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-[36px] hover:scale-110 transition-transform"
           >
             ›
           </button>
         </div>
 
         <div className="text-center mt-12">
-          <button className="bg-[#330662] px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-[#20043E] shadow-members transition-all duration-200 hover:-translate-y-1 hover:shadow-hover">
+          <button className="bg-[#330662] px-[28px] py-[13px] border border-black rounded-full text-[18px] md:text-[20px] hover:bg-[#20043E] shadow-members transition-all duration-200 hover:-translate-y-1 hover:shadow-hover leading-normal md:leading-normal">
             Meet Our Members
           </button>
         </div>
       </section>
 
       {/* Community Section */}
-      <section className="py-[140px] px-[16px] bg-gray-50">
+      <section className="py-[60px] md:py-[140px] px-[16px] bg-gray-50">
         <div className="max-w-4xl mx-auto relative">
           <button
-            onClick={prevAdmin}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-[36px] hover:scale-110 transition-transform"
+            onClick={prevCommunity}
+            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-[36px] hover:scale-110 transition-transform"
           >
             ‹
           </button>
 
-          <div className="bg-black rounded-[30px] p-[48px] text-white shadow-card">
+          <div className="bg-black rounded-[20px] md:rounded-[30px] p-[24px] md:p-[48px] text-white shadow-card">
             <div className="text-center mb-6">
               <span className="inline-block bg-gray-800 px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4">
                 {communities[currentCommunity].team}
               </span>
-              <h2 className="text-4xl font-bold mb-2">
+              <h2 className="text-2xl md:text-4xl font-bold mb-2 leading-tight md:leading-normal">
                 {communities[currentCommunity].title}
               </h2>
               <p className="text-gray-400 text-sm">
@@ -287,11 +310,11 @@ export default function LikeLionNYU() {
               <img
                 src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=400&fit=crop"
                 alt="NYU Community"
-                className="w-full h-64 object-cover"
+                className="w-full h-40 md:h-64 object-cover"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
               <div>
                 <h3 className="text-yellow-400 text-xs uppercase tracking-wider mb-3">
                   TECH STACK
@@ -319,11 +342,19 @@ export default function LikeLionNYU() {
           </div>
 
           <button
-            onClick={nextAdmin}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-[36px] hover:scale-110 transition-transform"
+            onClick={nextCommunity}
+            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-[36px] hover:scale-110 transition-transform"
           >
             ›
           </button>
+
+          {/* Mobile community prev/next */}
+          {communities.length > 1 && (
+            <div className="flex justify-center gap-[24px] mt-[16px] md:hidden">
+              <button onClick={prevCommunity} className="text-[36px] hover:scale-110 transition-transform text-gray-600">‹</button>
+              <button onClick={nextCommunity} className="text-[36px] hover:scale-110 transition-transform text-gray-600">›</button>
+            </div>
+          )}
         </div>
       </section>
 

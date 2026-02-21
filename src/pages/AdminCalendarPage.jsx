@@ -34,6 +34,7 @@ function AdminCalendarPage() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [calHeight, setCalHeight] = useState(() => window.innerWidth < 768 ? 450 : 700);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -47,6 +48,12 @@ function AdminCalendarPage() {
 
   useEffect(() => {
     fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setCalHeight(window.innerWidth < 768 ? 450 : 700);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -220,7 +227,7 @@ function AdminCalendarPage() {
       <AdminNav />
 
       {/* Add Event Button */}
-      <div className="flex justify-end px-[32px] pt-[24px]">
+      <div className="flex justify-end px-4 md:px-[32px] pt-[16px] md:pt-[24px]">
         <button
           onClick={handleAddEvent}
           className="px-[28px] py-[13px] bg-nyu-purple text-white rounded-full text-[20px] hover:opacity-80 transition-opacity"
@@ -260,7 +267,7 @@ function AdminCalendarPage() {
               events={events}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: 700 }}
+              style={{ height: calHeight }}
               eventPropGetter={eventStyleGetter}
               onSelectEvent={handleSelectEvent}
               culture="ko"

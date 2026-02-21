@@ -6,6 +6,7 @@ export default function AdminNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef(null);
 
   const isActive = (path) => location.pathname === path;
@@ -21,20 +22,22 @@ export default function AdminNav() {
     closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
   };
 
-  const activeClass = 'px-[28px] py-[13px] rounded-full text-[20px] bg-[#2a2a2a] text-white border border-gray-700';
-  const inactiveClass = 'px-[28px] py-[13px] border border-gray-700 rounded-full text-[20px] text-gray-300 hover:bg-[#2a2a2a]';
+  const activeClass = 'px-[20px] py-[10px] md:px-[28px] md:py-[13px] rounded-full text-[16px] md:text-[20px] bg-[#2a2a2a] text-white border border-gray-700';
+  const inactiveClass = 'px-[20px] py-[10px] md:px-[28px] md:py-[13px] border border-gray-700 rounded-full text-[16px] md:text-[20px] text-gray-300 hover:bg-[#2a2a2a]';
 
   return (
-    <nav className="flex items-center w-full px-[32px] py-[16px] bg-[#1a1a1a] border-b border-gray-800">
+    <nav className="relative flex items-center w-full px-4 md:px-[32px] py-[16px] bg-[#1a1a1a] border-b border-gray-800">
+      {/* Logo */}
       <div
         onClick={() => navigate('/admin')}
-        className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity text-white"
+        className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity text-white leading-normal md:leading-normal"
       >
         LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
-        <img src={NYULogo} alt="NYU Logo" className="h-[32px] ml-[8px]" />
+        <img src={NYULogo} alt="NYU Logo" className="h-[20px] md:h-[32px] ml-[8px]" />
       </div>
 
-      <div className="flex items-center gap-[16px] ml-auto">
+      {/* Desktop nav items */}
+      <div className="hidden md:flex items-center gap-[16px] ml-auto">
         {/* Attendance QR */}
         <button
           onClick={() => navigate('/admin/qr')}
@@ -57,9 +60,7 @@ export default function AdminNav() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <button
-            className={isManagement() ? activeClass : inactiveClass}
-          >
+          <button className={isManagement() ? activeClass : inactiveClass}>
             Management ▾
           </button>
 
@@ -107,6 +108,66 @@ export default function AdminNav() {
           Log In
         </button>
       </div>
+
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="md:hidden ml-auto text-white text-[24px] leading-none p-2"
+      >
+        {mobileOpen ? '✕' : '☰'}
+      </button>
+
+      {/* Mobile dropdown menu */}
+      {mobileOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50 p-4 flex flex-col gap-2">
+          <button
+            onClick={() => { navigate('/admin/qr'); setMobileOpen(false); }}
+            className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${
+              isActive('/admin/qr') ? 'bg-[#2a2a2a] text-white' : 'text-gray-300 hover:bg-[#2a2a2a]'
+            }`}
+          >
+            Attendance QR
+          </button>
+          <button
+            onClick={() => { navigate('/admin/attendance'); setMobileOpen(false); }}
+            className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${
+              isActive('/admin/attendance') ? 'bg-[#2a2a2a] text-white' : 'text-gray-300 hover:bg-[#2a2a2a]'
+            }`}
+          >
+            Attendance Session
+          </button>
+          <button
+            onClick={() => { navigate('/admin/users'); setMobileOpen(false); }}
+            className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${
+              isActive('/admin/users') ? 'bg-[#2a2a2a] text-white' : 'text-gray-300 hover:bg-[#2a2a2a]'
+            }`}
+          >
+            User Management
+          </button>
+          <button
+            onClick={() => { navigate('/admin/calendar'); setMobileOpen(false); }}
+            className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${
+              isActive('/admin/calendar') ? 'bg-[#2a2a2a] text-white' : 'text-gray-300 hover:bg-[#2a2a2a]'
+            }`}
+          >
+            Calendar Management
+          </button>
+          <button
+            onClick={() => { navigate('/admin/projects'); setMobileOpen(false); }}
+            className={`text-left px-[16px] py-[12px] rounded-[10px] text-[16px] ${
+              isActive('/admin/projects') ? 'bg-[#2a2a2a] text-white' : 'text-gray-300 hover:bg-[#2a2a2a]'
+            }`}
+          >
+            Project Management
+          </button>
+          <button
+            onClick={() => { navigate('/login'); setMobileOpen(false); }}
+            className="text-left px-[16px] py-[12px] rounded-[10px] text-[16px] text-gray-300 hover:bg-[#2a2a2a]"
+          >
+            Log In
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

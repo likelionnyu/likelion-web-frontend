@@ -132,8 +132,8 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-[48px] font-bold mb-[24px]">Project Not Found</h1>
+        <div className="text-center px-4">
+          <h1 className="text-[36px] md:text-[48px] font-bold mb-[24px] leading-tight md:leading-normal">Project Not Found</h1>
           <button
             onClick={() => navigate('/projects')}
             className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal shadow-button transition-all duration-200"
@@ -148,20 +148,20 @@ export default function ProjectDetailPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="flex items-center w-full px-[32px] py-[16px] bg-white">
+      <nav className="flex items-center w-full px-4 md:px-[32px] py-[16px] bg-white">
         <div
           onClick={() => navigate('/')}
-          className="flex items-center text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center text-[20px] md:text-[32px] font-bold cursor-pointer hover:opacity-80 transition-opacity leading-normal md:leading-normal"
         >
           LikeLion x <span className="text-nyu-purple ml-[8px]">NYU</span>
           <img
             src={NYULogo}
             alt="NYU Logo"
-            className="h-[32px] ml-[8px]"
+            className="h-[20px] md:h-[32px] ml-[8px]"
           />
         </div>
 
-        <div className="flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
+        <div className="hidden md:flex items-center gap-[48px] bg-white border border-black rounded-full px-[48px] py-[13px] font-normal ml-auto shadow-button">
           <a href="/#about" className="text-[20px] hover:text-nyu-purple">
             About Us
           </a>
@@ -177,19 +177,26 @@ export default function ProjectDetailPage() {
           >
             Projects
           </button>
-
         </div>
 
         <button
           onClick={() => navigate('/login')}
-          className="px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 text-[20px] font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+          className="hidden md:block px-[28px] py-[13px] border border-black rounded-full text-[20px] hover:bg-gray-50 font-normal ml-[21px] shadow-button transition-all duration-200 hover:-translate-y-1 hover:shadow-hover"
+        >
+          Log In
+        </button>
+
+        {/* Mobile Log In button */}
+        <button
+          onClick={() => navigate('/login')}
+          className="md:hidden ml-auto px-[14px] py-[7px] border border-black rounded-full text-[14px] hover:bg-gray-50 font-normal"
         >
           Log In
         </button>
       </nav>
 
       {/* Banner Image */}
-      <div className="w-full h-[400px] overflow-hidden">
+      <div className="w-full h-[200px] md:h-[400px] overflow-hidden">
         <img
           src={project.bannerImage}
           alt={project.name}
@@ -198,32 +205,32 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Project Header */}
-      <section className="py-[60px] px-[16px] bg-gray-50">
+      <section className="py-[40px] md:py-[60px] px-[16px] bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-start justify-between mb-[24px]">
+          <div className="flex flex-col md:flex-row items-start md:justify-between gap-4 mb-[20px] md:mb-[24px]">
             <div>
-              <h1 className="text-[56px] font-bold mb-[16px]">{project.name}</h1>
-              <p className="text-[24px] text-gray-600">{project.team}</p>
+              <h1 className="text-[32px] md:text-[56px] font-bold mb-[10px] md:mb-[16px] leading-tight md:leading-normal">{project.name}</h1>
+              <p className="text-[18px] md:text-[24px] text-gray-600">{project.team}</p>
             </div>
-            <span className={`${project.color} text-white px-[24px] py-[12px] rounded-full text-[16px] font-semibold`}>
+            <span className={`${project.color} text-white px-[18px] md:px-[24px] py-[8px] md:py-[12px] rounded-full text-[14px] md:text-[16px] font-semibold self-start`}>
               {project.status}
             </span>
           </div>
 
-          <p className="text-[20px] text-gray-700 leading-relaxed mb-[32px]">
+          <p className="text-[16px] md:text-[20px] text-gray-700 leading-relaxed mb-[24px] md:mb-[32px]">
             {project.description}
           </p>
 
           {/* Tech Stack */}
-          <div className="mb-[32px]">
-            <h3 className="text-[16px] font-semibold text-gray-500 uppercase tracking-wider mb-[16px]">
+          <div className="mb-[24px] md:mb-[32px]">
+            <h3 className="text-[14px] md:text-[16px] font-semibold text-gray-500 uppercase tracking-wider mb-[12px] md:mb-[16px]">
               Tech Stack
             </h3>
-            <div className="flex flex-wrap gap-[12px]">
+            <div className="flex flex-wrap gap-[8px] md:gap-[12px]">
               {project.techStack.map((tech, i) => (
                 <span
                   key={i}
-                  className="bg-white text-gray-700 px-[20px] py-[10px] rounded-full text-[16px] border border-gray-300"
+                  className="bg-white text-gray-700 px-[14px] md:px-[20px] py-[7px] md:py-[10px] rounded-full text-[14px] md:text-[16px] border border-gray-300"
                 >
                   {tech}
                 </span>
@@ -234,53 +241,53 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-[80px] px-[16px] bg-white">
+      <section className="py-[40px] md:py-[80px] px-[16px] bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-[48px] font-bold text-center mb-[60px]">
+          <h2 className="text-[32px] md:text-[48px] font-bold text-center mb-[40px] md:mb-[60px] leading-tight md:leading-normal">
             Meet the <span className="text-nyu-purple">Team</span>
           </h2>
 
           {/* Team Leader */}
-          <div className="mb-[80px]">
-            <h3 className="text-[32px] font-bold mb-[32px] text-center text-nyu-purple">
+          <div className="mb-[48px] md:mb-[80px]">
+            <h3 className="text-[24px] md:text-[32px] font-bold mb-[24px] md:mb-[32px] text-center text-nyu-purple leading-tight md:leading-normal">
               Team Leader
             </h3>
-            <div className="max-w-md mx-auto bg-gradient-to-br from-nyu-purple to-purple-700 rounded-[24px] p-[40px] text-white shadow-lg">
+            <div className="max-w-md mx-auto bg-gradient-to-br from-nyu-purple to-purple-700 rounded-[20px] md:rounded-[24px] p-6 md:p-[40px] text-white shadow-lg">
               <div className="flex flex-col items-center">
-                <div className="w-[200px] h-[200px] rounded-full overflow-hidden mb-[24px] border-4 border-white shadow-xl">
+                <div className="w-[140px] h-[140px] md:w-[200px] md:h-[200px] rounded-full overflow-hidden mb-[16px] md:mb-[24px] border-4 border-white shadow-xl">
                   <img
                     src={project.leader.photo}
                     alt={project.leader.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h4 className="text-[32px] font-bold mb-[8px]">{project.leader.name}</h4>
-                <p className="text-[18px] text-purple-200">{project.leader.role}</p>
+                <h4 className="text-[24px] md:text-[32px] font-bold mb-[6px] md:mb-[8px] leading-tight md:leading-normal">{project.leader.name}</h4>
+                <p className="text-[15px] md:text-[18px] text-purple-200 text-center">{project.leader.role}</p>
               </div>
             </div>
           </div>
 
           {/* Team Members */}
           <div>
-            <h3 className="text-[32px] font-bold mb-[32px] text-center">
+            <h3 className="text-[24px] md:text-[32px] font-bold mb-[24px] md:mb-[32px] text-center leading-tight md:leading-normal">
               Team Members
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] md:gap-[32px]">
               {project.members.map((member, index) => (
                 <div
                   key={index}
-                  className="bg-white border-2 border-gray-200 rounded-[20px] p-[32px] hover:border-nyu-purple hover:shadow-lg transition-all duration-300"
+                  className="bg-white border-2 border-gray-200 rounded-[20px] p-6 md:p-[32px] hover:border-nyu-purple hover:shadow-lg transition-all duration-300"
                 >
                   <div className="flex flex-col items-center">
-                    <div className="w-[150px] h-[150px] rounded-full overflow-hidden mb-[20px] border-2 border-gray-300">
+                    <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden mb-[16px] md:mb-[20px] border-2 border-gray-300">
                       <img
                         src={member.photo}
                         alt={member.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <h4 className="text-[24px] font-bold mb-[8px] text-center">{member.name}</h4>
-                    <p className="text-[16px] text-gray-600 text-center">{member.role}</p>
+                    <h4 className="text-[20px] md:text-[24px] font-bold mb-[6px] md:mb-[8px] text-center leading-tight md:leading-normal">{member.name}</h4>
+                    <p className="text-[14px] md:text-[16px] text-gray-600 text-center">{member.role}</p>
                   </div>
                 </div>
               ))}
