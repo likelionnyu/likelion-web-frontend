@@ -60,8 +60,15 @@ export default function AdminNav() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <button className={isManagement() ? activeClass : inactiveClass}>
-            Management ▾
+          <button className={`${isManagement() ? activeClass : inactiveClass} inline-flex items-center gap-2`}>
+            Management
+            <svg
+              className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+              fill="none" stroke="currentColor" strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
 
           {dropdownOpen && (

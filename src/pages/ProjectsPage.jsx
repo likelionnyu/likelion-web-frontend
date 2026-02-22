@@ -1,132 +1,135 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import PublicNav from '../components/PublicNav';
 
+const STATUS_CONFIG = {
+  planning:    { label: 'Planning',    bg: 'bg-green-500'  },
+  in_progress: { label: 'In Progress', bg: 'bg-blue-500'   },
+  completed:   { label: 'Completed',   bg: 'bg-yellow-500' },
+};
+
 export default function ProjectsPage() {
-  const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const studyTeams = [
-    {
-      id: 'ai-study-assistant',
-      name: 'AI Study Assistant',
-      team: 'Team Alpha',
-      members: ['John Kim', 'Sarah Lee', 'Michael Park', 'Jessica Chen'],
-      description:
-        'An intelligent study companion that helps students organize their learning materials, generate practice questions, and track study progress using AI technology.',
-      techStack: ['React', 'Node.js', 'OpenAI API', 'MongoDB'],
-      status: 'In Progress',
-      color: 'bg-blue-600',
-      category: 'study',
-    },
-    {
-      id: 'study-room-booking',
-      name: 'Study Room Booking',
-      team: 'Team Delta',
-      members: ['Andrew Davis', 'Michelle Kim', 'Ryan Taylor'],
-      description:
-        'Simplify the process of reserving study rooms across campus with an intuitive booking system and real-time availability.',
-      techStack: ['Angular', 'Django', 'MySQL'],
-      status: 'Completed',
-      color: 'bg-yellow-600',
-      category: 'study',
-    },
-  ];
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/retrieve-all-projects`);
+        if (!res.ok) throw new Error('Failed to fetch projects');
+        const data = await res.json();
+        setProjects(data.projects);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
-  const projectTeams = [
-    {
-      id: 'campus-food-finder',
-      name: 'Campus Food Finder',
-      team: 'Team Beta',
-      members: ['David Johnson', 'Emily Wang', 'Chris Martinez'],
-      description:
-        'A mobile-friendly web app that helps NYU students discover the best food options around campus with real-time reviews and ratings.',
-      techStack: ['React Native', 'Firebase', 'Google Maps API'],
-      status: 'Planning',
-      color: 'bg-green-600',
-      category: 'project',
-    },
-    {
-      id: 'event-management-system',
-      name: 'Event Management System',
-      team: 'Team Gamma',
-      members: [
-        'Rachel Brown',
-        'Kevin Liu',
-        'Amanda Garcia',
-        'Tom Wilson',
-        'Lisa Zhang',
-      ],
-      description:
-        'A comprehensive platform for organizing and managing student events, including registration, ticketing, and attendance tracking.',
-      techStack: ['Vue.js', 'Express', 'PostgreSQL', 'Stripe API'],
-      status: 'In Progress',
-      color: 'bg-purple-600',
-      category: 'project',
-    },
-  ];
+  const renderProjectCard = (project) => {
+    const thumbnail = project.photos?.[0]?.photo_url;
 
-  const renderProjectCard = (project, index) => (
-    <div
-      key={index}
-      onClick={() => navigate(`/projects/${project.id}`)}
-      className="bg-white border-2 border-gray-200 rounded-[20px] p-4 md:p-[32px] hover:border-nyu-purple hover:shadow-lg transition-all duration-300 cursor-pointer"
-    >
-      {/* Project Header */}
-      <div className="flex items-start justify-between mb-[16px] md:mb-[20px] gap-3">
-        <div className="min-w-0">
-          <h3 className="text-[20px] md:text-[28px] font-bold mb-[6px] md:mb-[8px] leading-tight md:leading-normal">
-            {project.name}
-          </h3>
-          <p className="text-gray-600 text-[13px] md:text-[14px]">
-            {project.team}
+    return (
+      <div
+        key={project.project_id}
+        className="bg-white border-2 border-gray-200 rounded-[16px] md:rounded-[20px] overflow-hidden flex flex-col"
+      >
+        {/* Thumbnail */}
+        {thumbnail && (
+          <img
+            src={thumbnail}
+            alt={project.project_name}
+            className="w-full h-36 md:h-48 object-cover shrink-0"
+          />
+        )}
+
+        <div className="p-4 md:p-8 flex flex-col flex-1">
+          {/* Project Name + Status */}
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <h3 className="text-[22px] md:text-[28px] font-bold leading-snug min-w-0">
+              {project.project_name}
+            </h3>
+            {project.status && STATUS_CONFIG[project.status] && (
+              <span className={`${STATUS_CONFIG[project.status].bg} text-white px-3 py-1 rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap shrink-0 mt-1`}>
+                {STATUS_CONFIG[project.status].label}
+              </span>
+            )}
+          </div>
+
+          {/* Team Name */}
+          <p className="text-gray-500 text-[13px] md:text-[14px] mb-3">{project.team_name}</p>
+
+          {/* Description */}
+          <p className="text-gray-700 leading-relaxed text-[13px] md:text-[15px] mb-4 flex-1">
+            {project.description}
           </p>
-        </div>
-        <span
-          className={`${project.color} text-white px-[12px] py-[5px] rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap shrink-0`}
-        >
-          {project.status}
-        </span>
-      </div>
 
-      {/* Description */}
-      <p className="text-gray-700 leading-relaxed mb-[16px] md:mb-[24px] text-[14px] md:text-base">
-        {project.description}
-      </p>
+          {/* Tech Stack */}
+          {project.tech_stack?.length > 0 && (
+            <div className="mb-4">
+              <p className="text-[11px] md:text-[12px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
+                Tech Stack
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {project.tech_stack.map((t, i) => (
+                  <span
+                    key={i}
+                    className="bg-gray-100 text-gray-700 px-3 py-[5px] rounded-full text-[12px] md:text-[13px] font-medium"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
-      {/* Tech Stack */}
-      <div className="mb-[16px] md:mb-[20px]">
-        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[10px] md:mb-[12px]">
-          Tech Stack
-        </h4>
-        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
-          {project.techStack.map((tech, i) => (
-            <span
-              key={i}
-              className="bg-gray-100 text-gray-700 px-[10px] md:px-[12px] py-[4px] md:py-[6px] rounded-full text-[12px] md:text-[14px]"
+          {/* Members */}
+          {project.members?.length > 0 && (
+            <div className="mb-4">
+              <p className="text-[11px] md:text-[12px] font-semibold uppercase tracking-widest text-gray-400 mb-2">
+                Team Members
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {project.members.map((m) => (
+                  <span
+                    key={m.member_id}
+                    className="bg-nyu-purple bg-opacity-10 text-nyu-purple px-3 py-[5px] rounded-full text-[12px] md:text-[13px] font-medium"
+                  >
+                    {m.english_name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Date Range */}
+          {(project.start_date || project.end_date) && (
+            <p className="text-gray-400 text-[11px] md:text-[12px] mb-3">
+              {project.start_date}{project.end_date ? ` ~ ${project.end_date}` : ''}
+            </p>
+          )}
+
+          {/* GitHub Link */}
+          {project.github_link && (
+            <a
+              href={project.github_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-2 text-nyu-purple text-[13px] md:text-[14px] font-medium hover:underline self-start"
             >
-              {tech}
-            </span>
-          ))}
+              <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+          )}
         </div>
       </div>
-
-      {/* Team Members */}
-      <div>
-        <h4 className="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-[10px] md:mb-[12px]">
-          Team Members ({project.members.length})
-        </h4>
-        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
-          {project.members.map((member, i) => (
-            <span
-              key={i}
-              className="bg-nyu-purple bg-opacity-10 text-nyu-purple px-[10px] md:px-[12px] py-[4px] md:py-[6px] rounded-full text-[12px] md:text-[14px] font-medium"
-            >
-              {member}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -134,49 +137,39 @@ export default function ProjectsPage() {
       <PublicNav />
 
       {/* Header Section */}
-      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
+      <section className="py-10 md:py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-[40px] md:text-[64px] font-bold mb-[16px] md:mb-[24px] leading-tight md:leading-normal">
-            Our <span className="text-nyu-purple">Teams</span>
+          <h1 className="text-[36px] md:text-[64px] font-bold mb-4 md:mb-6 leading-tight">
+            Our <span className="text-nyu-purple">Projects</span>
           </h1>
-          <p className="text-gray-600 text-[16px] md:text-[20px] mb-[32px] md:mb-[40px] max-w-2xl mx-auto leading-relaxed">
-            Explore the innovative projects our talented teams are working on.
-            From AI-powered solutions to campus management tools, we're building
-            the future together.
+          <p className="text-gray-600 text-[15px] md:text-[20px] max-w-2xl mx-auto leading-relaxed">
+            Explore the innovative projects our talented teams are working on. From AI-powered solutions to campus management tools, we're building the future together.
           </p>
         </div>
       </section>
 
-      {/* Study Teams Section */}
-      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
+      {/* Projects Grid */}
+      <section className="py-10 md:py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
-            <span className="text-nyu-purple">Study</span> Teams
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
-            {studyTeams.map((project, index) =>
-              renderProjectCard(project, index),
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Project Teams Section */}
-      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
-            <span className="text-nyu-purple">Project</span> Teams
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
-            {projectTeams.map((project, index) =>
-              renderProjectCard(project, index),
-            )}
-          </div>
+          {loading && (
+            <p className="text-center text-gray-500 text-[15px] py-12">Loading projects...</p>
+          )}
+          {error && (
+            <p className="text-center text-red-500 text-[15px] py-12">{error}</p>
+          )}
+          {!loading && !error && projects.length === 0 && (
+            <p className="text-center text-gray-500 text-[15px] py-12">No projects found.</p>
+          )}
+          {!loading && !error && projects.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-10">
+              {projects.map((project) => renderProjectCard(project))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 text-center border-gray-200">
+      <footer className="py-12 text-center border-t border-gray-200">
         <a
           href="https://instagram.com/nyu_likelion"
           target="_blank"
