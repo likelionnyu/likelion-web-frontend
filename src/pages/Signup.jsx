@@ -152,7 +152,7 @@ export default function SignUpPage() {
             custom_university: undefined,
             graduate_year: parseInt(formData.graduate_year),
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -189,13 +189,15 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <PublicNav />
 
       {/* Main Content */}
       <div className="px-4 md:px-[32px] py-[32px] md:py-[48px]">
-        <h1 className="text-[36px] md:text-[64px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">Sign Up</h1>
+        <h1 className="text-[36px] md:text-[64px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
+          Sign Up
+        </h1>
 
         <div className="max-w-xl mx-auto">
           <div className="bg-white border border-black rounded-[30px] md:rounded-[50px] px-6 md:px-[72px] pt-[30px] pb-[43px]">
@@ -278,7 +280,10 @@ export default function SignUpPage() {
                   onChange={(e) => {
                     handleChange(e);
                     if (e.target.value !== 'Other') {
-                      setFormData((prev) => ({ ...prev, custom_university: '' }));
+                      setFormData((prev) => ({
+                        ...prev,
+                        custom_university: '',
+                      }));
                     }
                   }}
                   required
@@ -303,7 +308,10 @@ export default function SignUpPage() {
                     value={formData.custom_university || ''}
                     onChange={(e) => {
                       const val = e.target.value.replace(/[0-9]/g, '');
-                      setFormData((prev) => ({ ...prev, custom_university: val }));
+                      setFormData((prev) => ({
+                        ...prev,
+                        custom_university: val,
+                      }));
                     }}
                     required
                     placeholder="Enter your university name"
