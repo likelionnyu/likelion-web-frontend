@@ -59,7 +59,7 @@ export default function AttendancePage() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(attendanceData),
-        }
+        },
       );
 
       if (response.ok) {
@@ -117,7 +117,7 @@ export default function AttendancePage() {
             onMouseLeave={() => {
               closeTimer.current = setTimeout(
                 () => setShowActivitiesMenu(false),
-                100
+                100,
               );
             }}
           >
@@ -133,7 +133,7 @@ export default function AttendancePage() {
                 onMouseLeave={() => {
                   closeTimer.current = setTimeout(
                     () => setShowActivitiesMenu(false),
-                    400
+                    400,
                   );
                 }}
               >
@@ -152,7 +152,6 @@ export default function AttendancePage() {
               </div>
             )}
           </div>
-
         </div>
 
         <button
@@ -167,11 +166,26 @@ export default function AttendancePage() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden ml-auto p-2"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             {mobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -180,11 +194,32 @@ export default function AttendancePage() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-gray-200 px-4 py-4 space-y-3">
-          <a href="#about" className="block text-lg hover:text-nyu-purple">About Us</a>
-          <button onClick={() => { navigate('/events'); setMobileMenuOpen(false); }} className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer">Events</button>
-          <button onClick={() => { navigate('/projects'); setMobileMenuOpen(false); }} className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer">Projects</button>
+          <a href="#about" className="block text-lg hover:text-nyu-purple">
+            About Us
+          </a>
           <button
-            onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}
+            onClick={() => {
+              navigate('/events');
+              setMobileMenuOpen(false);
+            }}
+            className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer"
+          >
+            Events
+          </button>
+          <button
+            onClick={() => {
+              navigate('/projects');
+              setMobileMenuOpen(false);
+            }}
+            className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer"
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => {
+              navigate('/login');
+              setMobileMenuOpen(false);
+            }}
             className="w-full px-4 py-2 border border-black rounded-full text-lg hover:bg-gray-50"
           >
             Log In
@@ -194,7 +229,9 @@ export default function AttendancePage() {
 
       {/* Main Content */}
       <div className="px-4 md:px-[32px] py-8 md:py-[48px]">
-        <h1 className="text-3xl md:text-[64px] font-bold mb-6 md:mb-[48px] md:leading-normal">Attendance</h1>
+        <h1 className="text-3xl md:text-[64px] font-bold mb-6 md:mb-[48px] md:leading-normal">
+          Attendance
+        </h1>
 
         <div className="max-w-xl mx-auto">
           <div className="bg-white border border-black rounded-3xl md:rounded-[50px] px-6 sm:px-10 md:px-[72px] pt-6 md:pt-[30px] pb-8 md:pb-[43px] md:leading-normal">
@@ -240,7 +277,7 @@ export default function AttendancePage() {
                   disabled={loading}
                   className="px-6 md:px-[24px] py-2 md:py-[8px] md:leading-normal border border-black rounded-full text-base md:text-[20px] font-normal hover:bg-gray-100 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors"
                 >
-                  {loading ? 'Logging in...' : 'Log In'}
+                  {loading ? 'Checking in...' : 'Submit'}
                 </button>
               </div>
 
@@ -326,7 +363,9 @@ export default function AttendancePage() {
             </svg>
 
             {/* Text */}
-            <p className="px-4" style={{ margin: 0 }}>Attendance Successful!</p>
+            <p className="px-4" style={{ margin: 0 }}>
+              Attendance Successful!
+            </p>
           </div>
         </div>
       )}

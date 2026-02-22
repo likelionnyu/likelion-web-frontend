@@ -39,7 +39,8 @@ export default function SignUpPage() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); //
     setLoading(true);
     setMessage('');
 
@@ -207,7 +208,7 @@ export default function SignUpPage() {
             </h2>
 
             {/* Form */}
-            <div className="space-y-[16px]">
+            <form onSubmit={handleSubmit} className="space-y-[16px]">
               {/* Korean Name */}
               <div>
                 <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
@@ -370,7 +371,7 @@ export default function SignUpPage() {
               {/* Submit Button */}
               <div className="flex justify-center pt-[30px]">
                 <button
-                  onClick={handleSubmit}
+                  type="submit"
                   disabled={loading}
                   className="px-[24px] py-[8px] border border-black rounded-full text-[20px] font-normal hover:bg-gray-100 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors"
                 >
@@ -390,7 +391,7 @@ export default function SignUpPage() {
                   {message}
                 </div>
               )}
-            </div>
+            </form>
           </div>
         </div>
       </div>
