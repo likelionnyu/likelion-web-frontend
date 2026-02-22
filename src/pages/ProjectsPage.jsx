@@ -10,7 +10,8 @@ export default function ProjectsPage() {
       name: 'AI Study Assistant',
       team: 'Team Alpha',
       members: ['John Kim', 'Sarah Lee', 'Michael Park', 'Jessica Chen'],
-      description: 'An intelligent study companion that helps students organize their learning materials, generate practice questions, and track study progress using AI technology.',
+      description:
+        'An intelligent study companion that helps students organize their learning materials, generate practice questions, and track study progress using AI technology.',
       techStack: ['React', 'Node.js', 'OpenAI API', 'MongoDB'],
       status: 'In Progress',
       color: 'bg-blue-600',
@@ -21,7 +22,8 @@ export default function ProjectsPage() {
       name: 'Study Room Booking',
       team: 'Team Delta',
       members: ['Andrew Davis', 'Michelle Kim', 'Ryan Taylor'],
-      description: 'Simplify the process of reserving study rooms across campus with an intuitive booking system and real-time availability.',
+      description:
+        'Simplify the process of reserving study rooms across campus with an intuitive booking system and real-time availability.',
       techStack: ['Angular', 'Django', 'MySQL'],
       status: 'Completed',
       color: 'bg-yellow-600',
@@ -35,7 +37,8 @@ export default function ProjectsPage() {
       name: 'Campus Food Finder',
       team: 'Team Beta',
       members: ['David Johnson', 'Emily Wang', 'Chris Martinez'],
-      description: 'A mobile-friendly web app that helps NYU students discover the best food options around campus with real-time reviews and ratings.',
+      description:
+        'A mobile-friendly web app that helps NYU students discover the best food options around campus with real-time reviews and ratings.',
       techStack: ['React Native', 'Firebase', 'Google Maps API'],
       status: 'Planning',
       color: 'bg-green-600',
@@ -45,8 +48,15 @@ export default function ProjectsPage() {
       id: 'event-management-system',
       name: 'Event Management System',
       team: 'Team Gamma',
-      members: ['Rachel Brown', 'Kevin Liu', 'Amanda Garcia', 'Tom Wilson', 'Lisa Zhang'],
-      description: 'A comprehensive platform for organizing and managing student events, including registration, ticketing, and attendance tracking.',
+      members: [
+        'Rachel Brown',
+        'Kevin Liu',
+        'Amanda Garcia',
+        'Tom Wilson',
+        'Lisa Zhang',
+      ],
+      description:
+        'A comprehensive platform for organizing and managing student events, including registration, ticketing, and attendance tracking.',
       techStack: ['Vue.js', 'Express', 'PostgreSQL', 'Stripe API'],
       status: 'In Progress',
       color: 'bg-purple-600',
@@ -63,10 +73,16 @@ export default function ProjectsPage() {
       {/* Project Header */}
       <div className="flex items-start justify-between mb-[16px] md:mb-[20px] gap-3">
         <div className="min-w-0">
-          <h3 className="text-[20px] md:text-[28px] font-bold mb-[6px] md:mb-[8px] leading-tight md:leading-normal">{project.name}</h3>
-          <p className="text-gray-600 text-[13px] md:text-[14px]">{project.team}</p>
+          <h3 className="text-[20px] md:text-[28px] font-bold mb-[6px] md:mb-[8px] leading-tight md:leading-normal">
+            {project.name}
+          </h3>
+          <p className="text-gray-600 text-[13px] md:text-[14px]">
+            {project.team}
+          </p>
         </div>
-        <span className={`${project.color} text-white px-[12px] py-[5px] rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap shrink-0`}>
+        <span
+          className={`${project.color} text-white px-[12px] py-[5px] rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap shrink-0`}
+        >
           {project.status}
         </span>
       </div>
@@ -124,19 +140,23 @@ export default function ProjectsPage() {
             Our <span className="text-nyu-purple">Teams</span>
           </h1>
           <p className="text-gray-600 text-[16px] md:text-[20px] mb-[32px] md:mb-[40px] max-w-2xl mx-auto leading-relaxed">
-            Explore the innovative projects our talented teams are working on. From AI-powered solutions to campus management tools, we're building the future together.
+            Explore the innovative projects our talented teams are working on.
+            From AI-powered solutions to campus management tools, we're building
+            the future together.
           </p>
         </div>
       </section>
 
       {/* Study Teams Section */}
-      <section className="py-[40px] md:py-[60px] px-[16px] bg-gray-50">
+      <section className="py-[40px] md:py-[60px] px-[16px] bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-[32px] md:text-[48px] font-bold mb-[32px] md:mb-[48px] leading-tight md:leading-normal">
             <span className="text-nyu-purple">Study</span> Teams
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
-            {studyTeams.map((project, index) => renderProjectCard(project, index))}
+            {studyTeams.map((project, index) =>
+              renderProjectCard(project, index),
+            )}
           </div>
         </div>
       </section>
@@ -148,13 +168,15 @@ export default function ProjectsPage() {
             <span className="text-nyu-purple">Project</span> Teams
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] md:gap-[40px]">
-            {projectTeams.map((project, index) => renderProjectCard(project, index))}
+            {projectTeams.map((project, index) =>
+              renderProjectCard(project, index),
+            )}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 text-center border-t border-gray-200">
+      <footer className="py-12 text-center border-gray-200">
         <a
           href="https://instagram.com/nyu_likelion"
           target="_blank"
