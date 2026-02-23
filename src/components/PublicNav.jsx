@@ -6,13 +6,22 @@ export default function PublicNav() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const isLoggedIn = !!localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const expiry = Number(localStorage.getItem('tokenExpiry'));
+  const sessionValid = !!token && !!expiry && Date.now() <= expiry;
+  if (!sessionValid && token) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('tokenExpiry');
+  }
+  const isLoggedIn = sessionValid;
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const isAdmin = !!user.is_admin;
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('tokenExpiry');
     setMobileOpen(false);
     navigate('/');
   };

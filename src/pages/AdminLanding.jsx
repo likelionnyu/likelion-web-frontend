@@ -48,6 +48,38 @@ export default function AdminLanding() {
     }
   };
 
+  /* ── Fetch then normalize display_order to 1, 2, 3, ... with no gaps ── */
+  const fetchAndNormalize = async () => {
+    const res = await fetch(`${BASE}/api/admin-cards`);
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    const data = await res.json();
+    const sorted = (data.cards ?? []).sort((a, b) => a.display_order - b.display_order);
+
+    // Reassign 1, 2, 3... — moves are always downward so ascending order is safe
+    for (let i = 0; i < sorted.length; i++) {
+      const card = sorted[i];
+      const expected = i + 1;
+      if (card.display_order !== expected) {
+        await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            position: card.position,
+            display_name: card.display_name,
+            description: card.description ?? null,
+            member_id: card.member_id ?? null,
+            display_order: expected,
+          }),
+        });
+      }
+    }
+
+    const res2 = await fetch(`${BASE}/api/admin-cards`);
+    if (!res2.ok) throw new Error(`Server error: ${res2.status}`);
+    const data2 = await res2.json();
+    setCards(data2.cards ?? []);
+  };
+
   /* ── Fetch members for select ── */
   const fetchAllMembers = async () => {
     try {
@@ -97,19 +129,77 @@ export default function AdminLanding() {
         member_id: editForm.member_id ? Number(editForm.member_id) : null,
         display_order: Number(editForm.display_order),
       };
-      const res = await fetch(`${BASE}/api/adminpage/admin-cards/${id}`, {
+
+      // Step 1: Park this card at a safe temp slot so it doesn't block any shifts
+      let res = await fetch(`${BASE}/api/adminpage/admin-cards/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ ...body, display_order: 9999 }),
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+      // Step 2: Fetch FRESH state of all OTHER cards from DB (never rely on stale React state)
+      const freshRes = await fetch(`${BASE}/api/admin-cards`);
+      if (!freshRes.ok) throw new Error(`Server error: ${freshRes.status}`);
+      const { cards: freshCards } = await freshRes.json();
+      const others = (freshCards ?? [])
+        .filter((c) => c.id !== id)
+        .sort((a, b) => a.display_order - b.display_order);
+
+      // Step 3: Compact others to 1…(n-1) to eliminate any gaps
+      //         Ascending processing is safe: every move is downward or a no-op
+      for (let i = 0; i < others.length; i++) {
+        const card = others[i];
+        const compact = i + 1;
+        if (card.display_order !== compact) {
+          await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              position: card.position,
+              display_name: card.display_name,
+              description: card.description ?? null,
+              member_id: card.member_id ?? null,
+              display_order: compact,
+            }),
+          });
+        }
+      }
+
+      // Step 4: Open a slot at the target position by shifting others[target-1 … n-2] up by 1
+      //         Process highest-first to avoid transient unique-constraint conflicts
+      const insertAt = Math.max(1, Math.min(body.display_order, others.length + 1));
+      for (let i = others.length - 1; i >= insertAt - 1; i--) {
+        const card = others[i];
+        await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            position: card.position,
+            display_name: card.display_name,
+            description: card.description ?? null,
+            member_id: card.member_id ?? null,
+            display_order: i + 2, // compact position was i+1; shift to i+2
+          }),
+        });
+      }
+
+      // Step 5: Place the card at the target slot (now guaranteed empty)
+      res = await fetch(`${BASE}/api/adminpage/admin-cards/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...body, display_order: insertAt }),
+      });
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
       setEditingId(null);
       showToast(`"${body.display_name}" saved.`);
-      await fetchCards();
     } catch (err) {
       showToast(`Failed to save: ${err.message}`, 'error');
     } finally {
       setSaving(false);
+      // Always sync React state with actual DB (catches partial failures too)
+      fetchAndNormalize().catch(() => {});
     }
   };
 
@@ -131,21 +221,65 @@ export default function AdminLanding() {
         member_id: createForm.member_id ? Number(createForm.member_id) : null,
         display_order: Number(createForm.display_order),
       };
+
+      // Step 1: Fetch FRESH state from DB (never rely on stale React state)
+      const freshRes = await fetch(`${BASE}/api/admin-cards`);
+      if (!freshRes.ok) throw new Error(`Server error: ${freshRes.status}`);
+      const { cards: freshCards } = await freshRes.json();
+      const existing = (freshCards ?? []).sort((a, b) => a.display_order - b.display_order);
+
+      // Step 2: Compact existing cards to 1…n (eliminate any gaps)
+      for (let i = 0; i < existing.length; i++) {
+        const card = existing[i];
+        const compact = i + 1;
+        if (card.display_order !== compact) {
+          await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              position: card.position,
+              display_name: card.display_name,
+              description: card.description ?? null,
+              member_id: card.member_id ?? null,
+              display_order: compact,
+            }),
+          });
+        }
+      }
+
+      // Step 3: Open a slot at the target position (highest-first to avoid conflicts)
+      const insertAt = Math.max(1, Math.min(body.display_order, existing.length + 1));
+      for (let i = existing.length - 1; i >= insertAt - 1; i--) {
+        const card = existing[i];
+        await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            position: card.position,
+            display_name: card.display_name,
+            description: card.description ?? null,
+            member_id: card.member_id ?? null,
+            display_order: i + 2,
+          }),
+        });
+      }
+
+      // Step 4: Insert new card at the now-empty target slot
       const res = await fetch(`${BASE}/api/adminpage/admin-cards`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ ...body, display_order: insertAt }),
       });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       const data = await res.json();
       setCreateForm(EMPTY_FORM);
       setCreating(false);
       showToast(`"${data.card.display_name}" created.`);
-      await fetchCards();
     } catch (err) {
       showToast(`Failed to create: ${err.message}`, 'error');
     } finally {
       setCreatingSaving(false);
+      fetchAndNormalize().catch(() => {});
     }
   };
 
@@ -155,8 +289,8 @@ export default function AdminLanding() {
     try {
       const res = await fetch(`${BASE}/api/adminpage/admin-cards/${card.id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
-      setCards((prev) => prev.filter((c) => c.id !== card.id));
       showToast(`"${card.display_name}" deleted.`);
+      await fetchAndNormalize();
     } catch (err) {
       showToast(`Failed to delete: ${err.message}`, 'error');
     }
@@ -335,7 +469,17 @@ export default function AdminLanding() {
             Landing <span className="text-nyu-purple">Management</span>
           </h1>
           <button
-            onClick={() => { setCreating((v) => !v); setCreateForm(EMPTY_FORM); }}
+            onClick={() => {
+              setCreating((v) => {
+                if (!v) {
+                  const nextOrder = cards.length > 0 ? Math.max(...cards.map((c) => c.display_order)) + 1 : 1;
+                  setCreateForm({ ...EMPTY_FORM, display_order: nextOrder });
+                } else {
+                  setCreateForm(EMPTY_FORM);
+                }
+                return !v;
+              });
+            }}
             className="shrink-0 mt-1 md:mt-3 px-4 md:px-6 py-2 md:py-3 bg-nyu-purple text-white rounded-full text-[13px] md:text-[15px] font-semibold hover:opacity-80 transition-opacity"
           >
             {creating ? 'Cancel' : '+ Add Card'}

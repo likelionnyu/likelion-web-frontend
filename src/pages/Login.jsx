@@ -44,9 +44,11 @@ export default function LoginPage() {
         setMessage('Login Successful!');
         console.log('서버 응답:', result);
 
-        // 토큰과 유저 정보 저장
+        // 토큰과 유저 정보 저장 (24시간 후 만료)
+        const expiry = Date.now() + 1 * 60 * 60 * 1000;
         localStorage.setItem('token', result.firebase.idToken);
         localStorage.setItem('user', JSON.stringify(result.supabase));
+        localStorage.setItem('tokenExpiry', String(expiry));
 
         // 로그인 성공 후 LandingPage로 이동
         setTimeout(() => {
