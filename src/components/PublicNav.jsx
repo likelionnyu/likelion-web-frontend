@@ -44,9 +44,6 @@ export default function PublicNav() {
 
       {/* Pill nav - visible from md (768px) up, scales between breakpoints */}
       <div className="hidden md:flex items-center gap-[12px] lg:gap-[28px] xl:gap-[48px] bg-white border border-black rounded-full px-[16px] lg:px-[32px] xl:px-[48px] py-[7px] lg:py-[10px] xl:py-[13px] font-normal ml-auto shadow-button">
-        <a href="/#about" className="text-[12px] lg:text-[15px] xl:text-[20px] hover:text-nyu-purple whitespace-nowrap">
-          About Us
-        </a>
         <button
           onClick={() => navigate('/events')}
           className="text-[12px] lg:text-[15px] xl:text-[20px] hover:text-nyu-purple bg-transparent border-none cursor-pointer whitespace-nowrap"
@@ -91,13 +88,6 @@ export default function PublicNav() {
       {/* Mobile dropdown menu */}
       {mobileOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 z-50 p-4 flex flex-col gap-1 shadow-lg">
-          <a
-            href="/#about"
-            onClick={() => setMobileOpen(false)}
-            className="text-left px-[16px] py-[12px] rounded-[10px] text-[16px] text-gray-800 hover:bg-gray-100"
-          >
-            About Us
-          </a>
           <button
             onClick={() => { navigate('/events'); setMobileOpen(false); }}
             className="text-left px-[16px] py-[12px] rounded-[10px] text-[16px] text-gray-800 hover:bg-gray-100"
