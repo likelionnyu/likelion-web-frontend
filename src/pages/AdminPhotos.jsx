@@ -4,6 +4,7 @@ import AdminNav from '../components/AdminNav';
 // ── API endpoints ──────────────────────────────────────────────
 const API = {
   members:  '/api/adminpage/members_list',
+  projects: '/api/retrieve-all-projects',
   allPhotos: '/api/retrieve-all-photos',
   upload:   '/api/photos/upload',
   update:   '/api/photos/update',   // PUT  { link_id, description, linked_member_id }
@@ -35,12 +36,18 @@ export default function AdminPhotos() {
   const [members, setMembers] = useState([]);
   const [membersLoading, setMembersLoading] = useState(false);
 
+  // ── Shared: projects list ──
+  const [projects, setProjects] = useState([]);
+  const [projectsLoading, setProjectsLoading] = useState(false);
+
   // ── Upload state ──
+  const [uploadType, setUploadType] = useState('member'); // 'member' | 'project'
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [fileInputKey, setFileInputKey] = useState(0);
   const [upDesc, setUpDesc] = useState('');
   const [upLinkedMember, setUpLinkedMember] = useState('');
+  const [upLinkedProject, setUpLinkedProject] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState('');
   const [uploadOk, setUploadOk] = useState(false);
@@ -69,6 +76,23 @@ export default function AdminPhotos() {
         console.error('Failed to load members:', err);
       } finally {
         setMembersLoading(false);
+      }
+    };
+    run();
+  }, []);
+
+  // ── Fetch projects ──
+  useEffect(() => {
+    const run = async () => {
+      setProjectsLoading(true);
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}${API.projects}`);
+        const data = await res.json();
+        setProjects(data.projects || []);
+      } catch (err) {
+        console.error('Failed to load projects:', err);
+      } finally {
+        setProjectsLoading(false);
       }
     };
     run();
@@ -110,9 +134,8 @@ export default function AdminPhotos() {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) { setUploadMsg('Please select a file.'); setUploadOk(false); return; }
-    if (!upLinkedMember) { setUploadMsg('Please select a member.'); setUploadOk(false); return; }
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.member_id) { setUploadMsg('Could not identify logged-in user.'); setUploadOk(false); return; }
+    if (uploadType === 'member' && !upLinkedMember) { setUploadMsg('Please select a member.'); setUploadOk(false); return; }
+    if (uploadType === 'project' && !upLinkedProject) { setUploadMsg('Please select a project.'); setUploadOk(false); return; }
 
     setUploading(true);
     setUploadMsg('');
@@ -120,8 +143,11 @@ export default function AdminPhotos() {
     fd.append('file', file);
     fd.append('date', getNYDate());
     fd.append('description', upDesc);
-    fd.append('member_id', user.member_id);
-    fd.append('linked_member_id', upLinkedMember);
+    if (uploadType === 'member') {
+      fd.append('linked_member_id', upLinkedMember);
+    } else {
+      fd.append('linked_project_id', upLinkedProject);
+    }
 
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}${API.upload}`, { method: 'POST', body: fd });
@@ -129,7 +155,9 @@ export default function AdminPhotos() {
       const data = await res.json();
       setUploadOk(true);
       setUploadMsg(`Uploaded! Photo ID: ${data.photo?.photo_id}`);
-      setFile(null); setPreview(null); setUpDesc(''); setUpLinkedMember(''); setFileInputKey((k) => k + 1);
+      setFile(null); setPreview(null); setUpDesc('');
+      setUpLinkedMember(''); setUpLinkedProject('');
+      setFileInputKey((k) => k + 1);
     } catch (err) {
       console.error(err);
       setUploadOk(false);
@@ -249,6 +277,27 @@ export default function AdminPhotos() {
             onSubmit={handleUpload}
             className="bg-[#1a1a1a] border border-gray-800 rounded-[16px] p-[20px] md:p-[32px] flex flex-col gap-[20px] w-full max-w-[600px] mx-auto"
           >
+            {/* Upload type toggle */}
+            <div>
+              <label className={labelClass}>Photo Type *</label>
+              <div className="flex gap-[8px]">
+                {['member', 'project'].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => { setUploadType(t); setUploadMsg(''); setUpLinkedMember(''); setUpLinkedProject(''); }}
+                    className={`flex-1 py-[9px] rounded-full text-[14px] border transition-colors ${
+                      uploadType === t
+                        ? 'bg-nyu-purple text-white border-nyu-purple'
+                        : 'bg-transparent text-gray-400 border-gray-700 hover:border-gray-500 hover:text-white'
+                    }`}
+                  >
+                    {t === 'member' ? 'Member Photo' : 'Project Photo'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* File picker */}
             <div>
               <label className={labelClass}>Photo File *</label>
@@ -270,6 +319,7 @@ export default function AdminPhotos() {
             </div>
 
             {/* Member in Photo */}
+            {uploadType === 'member' && (
             <div>
               <label className={labelClass}>Member in Photo *</label>
               <div className="relative">
@@ -289,6 +339,30 @@ export default function AdminPhotos() {
                 <SelectArrow />
               </div>
             </div>
+            )}
+
+            {/* Project */}
+            {uploadType === 'project' && (
+            <div>
+              <label className={labelClass}>Project *</label>
+              <div className="relative">
+                <select
+                  value={upLinkedProject}
+                  onChange={(e) => { setUpLinkedProject(e.target.value); setUploadMsg(''); }}
+                  className={selectClass}
+                  disabled={projectsLoading}
+                >
+                  <option value="">{projectsLoading ? 'Loading...' : 'Select project'}</option>
+                  {projects.map((p) => (
+                    <option key={p.project_id} value={p.project_id}>
+                      {p.project_name}{p.team_name ? ` — ${p.team_name}` : ''}
+                    </option>
+                  ))}
+                </select>
+                <SelectArrow />
+              </div>
+            </div>
+            )}
 
             {/* Description */}
             <div>
