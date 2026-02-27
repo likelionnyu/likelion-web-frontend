@@ -105,13 +105,12 @@ export default function LikeLionNYU() {
         </h1>
 
         <p className="max-w-[800px] mx-auto text-gray-600 leading-relaxed mb-[40px] md:mb-[60px]">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing versions of Lorem Ipsum.
+          LikeLion is a student-run tech community founded in South Korea in 2013,
+          now spanning 50+ campuses across the United States. At NYU, we bring
+          together students of all majors and backgrounds — coders and
+          non-coders alike — to learn, build, and grow together. Through study
+          groups, hands-on projects, and community events, we help each other
+          turn ideas into reality and take the first step into the tech industry.
         </p>
 
         <a
