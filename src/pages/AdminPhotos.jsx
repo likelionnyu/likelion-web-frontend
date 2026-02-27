@@ -136,6 +136,8 @@ export default function AdminPhotos() {
     if (!file) { setUploadMsg('Please select a file.'); setUploadOk(false); return; }
     if (uploadType === 'member' && !upLinkedMember) { setUploadMsg('Please select a member.'); setUploadOk(false); return; }
     if (uploadType === 'project' && !upLinkedProject) { setUploadMsg('Please select a project.'); setUploadOk(false); return; }
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.member_id) { setUploadMsg('Could not identify logged-in user.'); setUploadOk(false); return; }
 
     setUploading(true);
     setUploadMsg('');
@@ -143,6 +145,7 @@ export default function AdminPhotos() {
     fd.append('file', file);
     fd.append('date', getNYDate());
     fd.append('description', upDesc);
+    fd.append('member_id', user.member_id);
     if (uploadType === 'member') {
       fd.append('linked_member_id', upLinkedMember);
     } else {
