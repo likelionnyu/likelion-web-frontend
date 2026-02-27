@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         'nyu-purple': '#57068c',
+        'nyu-bright-purple': '#702B9D',
         'll-orange': '#FF6000'
       },
       boxShadow: {

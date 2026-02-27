@@ -416,7 +416,7 @@ export default function AdminLanding() {
             <>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-nyu-purple text-[11px] font-semibold uppercase tracking-widest mb-1">
+                  <p className="text-nyu-bright-purple text-[11px] font-semibold uppercase tracking-widest mb-1">
                     Order #{card.display_order}
                   </p>
                   <h3 className="text-[20px] md:text-[26px] font-bold text-white leading-snug">
