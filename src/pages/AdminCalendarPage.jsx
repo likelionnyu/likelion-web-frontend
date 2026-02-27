@@ -146,14 +146,27 @@ function AdminCalendarPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const toNewYorkISO = (datetimeLocalStr) => {
+    if (!datetimeLocalStr) return datetimeLocalStr;
+    const date = new Date(datetimeLocalStr);
+    const parts = new Intl.DateTimeFormat('en', {
+      timeZone: 'America/New_York',
+      timeZoneName: 'longOffset',
+    }).formatToParts(date);
+    const tzPart = parts.find(p => p.type === 'timeZoneName')?.value;
+    const offset = tzPart ? tzPart.replace('GMT', '') : '-05:00';
+    const withSeconds = datetimeLocalStr.length === 16 ? `${datetimeLocalStr}:00` : datetimeLocalStr;
+    return `${withSeconds}${offset}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const eventData = {
       event_title: formData.title,
       category: formData.category,
-      start_date: formData.start_date,
-      end_date: formData.end_date,
+      start_date: toNewYorkISO(formData.start_date),
+      end_date: toNewYorkISO(formData.end_date),
       location: formData.location,
       description: formData.description,
     };
