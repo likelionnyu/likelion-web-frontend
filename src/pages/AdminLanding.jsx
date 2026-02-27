@@ -199,7 +199,7 @@ export default function AdminLanding() {
     } finally {
       setSaving(false);
       // Always sync React state with actual DB (catches partial failures too)
-      fetchAndNormalize().catch(() => {});
+      fetchAndNormalize().catch(() => { });
     }
   };
 
@@ -279,7 +279,7 @@ export default function AdminLanding() {
       showToast(`Failed to create: ${err.message}`, 'error');
     } finally {
       setCreatingSaving(false);
-      fetchAndNormalize().catch(() => {});
+      fetchAndNormalize().catch(() => { });
     }
   };
 
@@ -325,7 +325,7 @@ export default function AdminLanding() {
 
       {/* Description */}
       <label className="flex flex-col gap-1 text-gray-400 text-[13px]">
-        Description
+        Description *
         <textarea
           rows={3}
           placeholder="Short bio or role description"
@@ -337,7 +337,7 @@ export default function AdminLanding() {
 
       {/* Linked Member */}
       <label className="flex flex-col gap-1 text-gray-400 text-[13px]">
-        Linked Member (for photo)
+        Linked Member (for photo) *
         <div className="relative">
           <select
             className="w-full appearance-none bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 pr-9 text-white text-[15px] focus:outline-none focus:border-nyu-purple cursor-pointer"
@@ -363,7 +363,7 @@ export default function AdminLanding() {
 
       {/* Display Order */}
       <label className="flex flex-col gap-1 text-gray-400 text-[13px]">
-        Display Order
+        Display Order *
         <input
           type="number"
           min={0}
@@ -523,9 +523,8 @@ export default function AdminLanding() {
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-4 md:right-8 left-4 md:left-auto px-5 py-3 rounded-[12px] text-white text-[14px] shadow-lg z-50 ${
-            toast.type === 'error' ? 'bg-red-700' : 'bg-green-700'
-          }`}
+          className={`fixed bottom-6 right-4 md:right-8 left-4 md:left-auto px-5 py-3 rounded-[12px] text-white text-[14px] shadow-lg z-50 ${toast.type === 'error' ? 'bg-red-700' : 'bg-green-700'
+            }`}
         >
           {toast.msg}
         </div>
