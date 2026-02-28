@@ -73,21 +73,20 @@ export default function AdminAttendance() {
     return nums;
   }, [records]);
 
-  const dates = useMemo(() => {
-    const ds = [...new Set(records.map((r) => r.date).filter(Boolean))].sort((a, b) =>
-      b.localeCompare(a),
-    );
-    return ds;
-  }, [records]);
+  const filterDateFormatted = useMemo(() => {
+    if (!filterDate) return '';
+    const [y, m, d] = filterDate.split('-');
+    return `${m}-${d}-${y}`;
+  }, [filterDate]);
 
   const filtered = useMemo(() => {
     return records.filter((r) => {
       if (filterMeeting && String(r.meeting_number) !== filterMeeting) return false;
-      if (filterDate && r.date !== filterDate) return false;
+      if (filterDateFormatted && r.date !== filterDateFormatted) return false;
       if (filterStatus && r.status !== filterStatus) return false;
       return true;
     });
-  }, [records, filterMeeting, filterDate, filterStatus]);
+  }, [records, filterMeeting, filterDateFormatted, filterStatus]);
 
   const selectClass =
     'appearance-none bg-[#2a2a2a] text-gray-300 border border-gray-700 rounded-full pl-[16px] pr-[36px] py-[8px] text-[14px] focus:outline-none focus:border-gray-500 cursor-pointer';
@@ -129,21 +128,12 @@ export default function AdminAttendance() {
             <FilterArrow />
           </div>
 
-          <div className="relative">
-            <input
-              type="text"
-              list="date-options"
-              value={filterDate}
-              onChange={(e) => setFilterDate(e.target.value)}
-              placeholder="Filter by date..."
-              className="bg-[#2a2a2a] text-gray-300 border border-gray-700 rounded-full px-[16px] py-[8px] text-[14px] focus:outline-none focus:border-gray-500 placeholder-gray-600 w-[180px]"
-            />
-            <datalist id="date-options">
-              {dates.map((d) => (
-                <option key={d} value={d} />
-              ))}
-            </datalist>
-          </div>
+          <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="bg-[#2a2a2a] text-gray-300 border border-gray-700 rounded-full px-[16px] py-[8px] text-[14px] focus:outline-none focus:border-gray-500 [color-scheme:dark]"
+          />
 
           <div className="relative">
             <select
