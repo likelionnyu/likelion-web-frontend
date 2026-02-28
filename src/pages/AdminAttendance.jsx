@@ -73,12 +73,12 @@ export default function AdminAttendance() {
     return nums;
   }, [records]);
 
-  // Normalize any date string to YYYY-MM-DD for comparison
+  // Normalize M/D/YYYY → YYYY-MM-DD for comparison with date picker
   const toISO = (dateStr) => {
     if (!dateStr) return '';
-    const mmddyyyy = dateStr.match(/^(\d{2})-(\d{2})-(\d{4})$/);
-    if (mmddyyyy) return `${mmddyyyy[3]}-${mmddyyyy[1]}-${mmddyyyy[2]}`;
-    return dateStr; // already YYYY-MM-DD or unknown
+    const slash = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (slash) return `${slash[3]}-${slash[1].padStart(2, '0')}-${slash[2].padStart(2, '0')}`;
+    return dateStr;
   };
 
   const filtered = useMemo(() => {
