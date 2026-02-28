@@ -73,20 +73,22 @@ export default function AdminAttendance() {
     return nums;
   }, [records]);
 
-  const filterDateFormatted = useMemo(() => {
-    if (!filterDate) return '';
-    const [y, m, d] = filterDate.split('-');
-    return `${m}-${d}-${y}`;
-  }, [filterDate]);
+  // Normalize any date string to YYYY-MM-DD for comparison
+  const toISO = (dateStr) => {
+    if (!dateStr) return '';
+    const mmddyyyy = dateStr.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+    if (mmddyyyy) return `${mmddyyyy[3]}-${mmddyyyy[1]}-${mmddyyyy[2]}`;
+    return dateStr; // already YYYY-MM-DD or unknown
+  };
 
   const filtered = useMemo(() => {
     return records.filter((r) => {
       if (filterMeeting && String(r.meeting_number) !== filterMeeting) return false;
-      if (filterDateFormatted && r.date !== filterDateFormatted) return false;
+      if (filterDate && toISO(r.date) !== filterDate) return false;
       if (filterStatus && r.status !== filterStatus) return false;
       return true;
     });
-  }, [records, filterMeeting, filterDateFormatted, filterStatus]);
+  }, [records, filterMeeting, filterDate, filterStatus]);
 
   const selectClass =
     'appearance-none bg-[#2a2a2a] text-gray-300 border border-gray-700 rounded-full pl-[16px] pr-[36px] py-[8px] text-[14px] focus:outline-none focus:border-gray-500 cursor-pointer';
