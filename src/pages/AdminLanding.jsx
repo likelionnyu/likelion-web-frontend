@@ -104,7 +104,11 @@ export default function AdminLanding() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('PUT error body:', errText);
+        throw new Error(`Server error: ${res.status} - ${errText}`);
+      }
 
       setEditingId(null);
       showToast(`"${body.display_name}" saved.`);

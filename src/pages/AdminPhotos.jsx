@@ -238,6 +238,12 @@ export default function AdminPhotos() {
     return m ? `${m.english_name} (${m.korean_name})` : `Member #${id}`;
   };
 
+  const getProjectName = (id) => {
+    const p = projects.find((p) => p.project_id === id || p.project_id === Number(id));
+    if (!p) return `Project #${id}`;
+    return p.team_name ? `${p.project_name} — ${p.team_name}` : p.project_name;
+  };
+
   const visiblePhotos = sourceFilter === 'all'
     ? photos
     : photos.filter((p) => p.source === sourceFilter);
@@ -534,7 +540,7 @@ export default function AdminPhotos() {
                                   </span>
                                 )}
                                 {photo.source === 'project' && photo.project_id && (
-                                  <span className="text-[13px] text-gray-300">Project #{photo.project_id}</span>
+                                  <span className="text-[13px] text-gray-300">{getProjectName(photo.project_id)}</span>
                                 )}
                               </div>
                               <span className="text-[11px] text-gray-600 shrink-0">#{photo.photo_id}</span>
