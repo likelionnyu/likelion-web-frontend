@@ -6,11 +6,12 @@ const BASE = process.env.REACT_APP_API_URL;
 
 export default function LikeLionNYU() {
   const [currentAdmin, setCurrentAdmin] = useState(0);
-  const [currentCommunity, setCurrentCommunity] = useState(0);
   const [flippedCards, setFlippedCards] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [adminsLoading, setAdminsLoading] = useState(true);
   const [memberPhotoMap, setMemberPhotoMap] = useState({}); // member_id -> photo_url
+  const [projectPhotos, setProjectPhotos] = useState([]);
+  const [currentProjectPhoto, setCurrentProjectPhoto] = useState(0);
 
   useEffect(() => {
     const fetchAdminCards = async () => {
@@ -32,13 +33,17 @@ export default function LikeLionNYU() {
         if (!res.ok) return;
         const data = await res.json();
         const map = {};
-        (data.photos || [])
-          .filter((p) => p.source === 'member' && p.member_id && p.photo_url)
-          .forEach((p) => {
+        const projectUrls = [];
+        (data.photos || []).forEach((p) => {
+          if (p.source === 'member' && p.member_id && p.photo_url) {
             // 멤버당 첫 번째 사진만 사용
             if (!map[p.member_id]) map[p.member_id] = p.photo_url;
-          });
+          } else if (p.source === 'project' && p.photo_url) {
+            projectUrls.push(p.photo_url);
+          }
+        });
         setMemberPhotoMap(map);
+        setProjectPhotos(projectUrls);
       } catch (err) {
         console.error('Failed to load member photos:', err);
       }
@@ -48,19 +53,6 @@ export default function LikeLionNYU() {
     fetchMemberPhotos();
   }, []);
 
-  const communities = [
-    {
-      team: 'FRONTEND TEAM',
-      title: 'NYU Community',
-      description: '뉴욕대 한인 커뮤니티',
-      techStack: ['HTML', 'CSS', 'Tailwind CSS', 'Javascript'],
-      features: [
-        'An online community where NYU students can freely share and exchange information about courses, academics, and campus life.',
-        'Offers tailored guides for freshmen and fosters strong student connections through various interactive communities.',
-      ],
-    },
-  ];
-
   const nextAdmin = () => {
     setCurrentAdmin((prev) => (prev + 4 >= admins.length ? prev : prev + 4));
   };
@@ -69,13 +61,13 @@ export default function LikeLionNYU() {
     setCurrentAdmin((prev) => (prev - 4 < 0 ? 0 : prev - 4));
   };
 
-  const nextCommunity = () => {
-    setCurrentCommunity((prev) => (prev + 1) % communities.length);
+  const nextProjectPhoto = () => {
+    setCurrentProjectPhoto((prev) => (prev + 1) % projectPhotos.length);
   };
 
-  const prevCommunity = () => {
-    setCurrentCommunity(
-      (prev) => (prev - 1 + communities.length) % communities.length,
+  const prevProjectPhoto = () => {
+    setCurrentProjectPhoto(
+      (prev) => (prev - 1 + projectPhotos.length) % projectPhotos.length,
     );
   };
 
@@ -223,88 +215,62 @@ export default function LikeLionNYU() {
       </section>
 
       {/* Community Section */}
-      <section className="py-[60px] md:py-[140px] px-[16px] bg-white">
-        <div className="max-w-4xl mx-auto relative">
-          <button
-            onClick={prevCommunity}
-            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 text-[36px] hover:scale-110 transition-transform"
-          >
-            ‹
-          </button>
+      <section className="py-[60px] md:py-[100px] px-[16px] bg-white">
+        <h2 className="text-[28px] md:text-[36px] font-bold text-center mb-[40px] md:mb-[60px]">
+          Our Projects
+        </h2>
 
-          <div className="bg-black rounded-[20px] md:rounded-[30px] p-[24px] md:p-[48px] text-white shadow-card">
-            <div className="text-center mb-6">
-              <span className="inline-block bg-gray-800 px-4 py-1 rounded-full text-xs uppercase tracking-wider mb-4">
-                {communities[currentCommunity].team}
-              </span>
-              <h2 className="text-2xl md:text-4xl font-bold mb-2 leading-tight md:leading-normal">
-                {communities[currentCommunity].title}
-              </h2>
-              <p className="text-gray-400 text-sm">
-                {communities[currentCommunity].description}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden mb-8">
-              <img
-                src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=400&fit=crop"
-                alt="NYU Community"
-                className="w-full h-40 md:h-64 object-cover"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-              <div>
-                <h3 className="text-yellow-400 text-xs uppercase tracking-wider mb-3">
-                  TECH STACK
-                </h3>
-                <ul className="space-y-1 text-sm">
-                  {communities[currentCommunity].techStack.map((tech, i) => (
-                    <li key={i}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-yellow-400 text-xs uppercase tracking-wider mb-3">
-                  FEATURES
-                </h3>
-                <ul className="space-y-2 text-sm">
-                  {communities[currentCommunity].features.map((feature, i) => (
-                    <li key={i} className="leading-relaxed">
-                      • {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={nextCommunity}
-            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 text-[36px] hover:scale-110 transition-transform"
-          >
-            ›
-          </button>
-
-          {/* Mobile community prev/next */}
-          {communities.length > 1 && (
-            <div className="flex justify-center gap-[24px] mt-[16px] md:hidden">
+        {projectPhotos.length > 0 ? (
+          <div className="max-w-2xl mx-auto">
+            {/* Photo + arrows row */}
+            <div className="flex items-center gap-3 md:gap-6">
               <button
-                onClick={prevCommunity}
-                className="text-[36px] hover:scale-110 transition-transform text-gray-600"
+                onClick={prevProjectPhoto}
+                className="shrink-0 text-[36px] md:text-[48px] leading-none hover:scale-110 transition-transform text-gray-400 hover:text-black"
               >
                 ‹
               </button>
+
+              <div className="flex-1 rounded-[16px] md:rounded-[24px] overflow-hidden shadow-card aspect-square bg-gray-100">
+                <img
+                  key={currentProjectPhoto}
+                  src={projectPhotos[currentProjectPhoto]}
+                  alt={`Project photo ${currentProjectPhoto + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
               <button
-                onClick={nextCommunity}
-                className="text-[36px] hover:scale-110 transition-transform text-gray-600"
+                onClick={nextProjectPhoto}
+                className="shrink-0 text-[36px] md:text-[48px] leading-none hover:scale-110 transition-transform text-gray-400 hover:text-black"
               >
                 ›
               </button>
             </div>
-          )}
-        </div>
+
+            {/* Dot indicators */}
+            <div className="flex justify-center gap-[8px] mt-[20px]">
+              {projectPhotos.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentProjectPhoto(i)}
+                  className={`rounded-full transition-all duration-200 ${
+                    i === currentProjectPhoto
+                      ? 'w-[20px] h-[8px] bg-black'
+                      : 'w-[8px] h-[8px] bg-gray-300 hover:bg-gray-500'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Counter */}
+            <p className="text-center text-gray-400 text-sm mt-[10px]">
+              {currentProjectPhoto + 1} / {projectPhotos.length}
+            </p>
+          </div>
+        ) : (
+          <p className="text-center text-gray-400">No project photos yet.</p>
+        )}
       </section>
 
       {/* Footer */}

@@ -41,7 +41,7 @@ export default function ProjectsPage() {
           <img
             src={thumbnail}
             alt={project.project_name}
-            className="w-full h-36 md:h-48 object-cover shrink-0"
+            className="w-full h-36 md:h-48 object-cover object-top shrink-0"
           />
         )}
 

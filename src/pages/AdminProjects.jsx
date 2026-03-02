@@ -314,7 +314,7 @@ export default function AdminProjects() {
         className="bg-[#1a1a1a] border border-gray-700 rounded-[20px] overflow-hidden flex flex-col"
       >
         {!isEditing && thumbnail && (
-          <img src={thumbnail} alt={project.project_name} className="w-full h-36 md:h-44 object-cover" />
+          <img src={thumbnail} alt={project.project_name} className="w-full h-36 md:h-44 object-cover object-top" />
         )}
 
         <div className="p-4 md:p-8 flex flex-col gap-4 flex-1">
