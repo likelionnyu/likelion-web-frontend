@@ -128,7 +128,11 @@ export default function AdminProjects() {
   };
 
   const handleFormChange = (field, value) =>
-    setEditForm((prev) => ({ ...prev, [field]: value }));
+    setEditForm((prev) => ({
+      ...prev,
+      [field]: value,
+      ...(field === 'status' && ['planning', 'in_progress'].includes(value) ? { end_date: '' } : {}),
+    }));
 
   const handleCancelEdit = () => setEditingId(null);
 
@@ -147,7 +151,7 @@ export default function AdminProjects() {
         member_ids: editForm.member_ids,
         github_link: editForm.github_link.trim(),
         start_date: editForm.start_date || null,
-        end_date: editForm.end_date || null,
+        end_date: ['planning', 'in_progress'].includes(editForm.status) ? null : (editForm.end_date || null),
         status: editForm.status,
       };
       const res = await fetch(`${BASE}/api/projects/${projectId}`, {
@@ -169,7 +173,11 @@ export default function AdminProjects() {
 
   /* ── Create → POST /api/projects ── */
   const handleCreateChange = (field, value) =>
-    setCreateForm((prev) => ({ ...prev, [field]: value }));
+    setCreateForm((prev) => ({
+      ...prev,
+      [field]: value,
+      ...(field === 'status' && ['planning', 'in_progress'].includes(value) ? { end_date: '' } : {}),
+    }));
 
   const handleCreate = async () => {
     if (!createForm.project_name.trim()) {
@@ -185,7 +193,7 @@ export default function AdminProjects() {
         tech_stack: parseTechStack(createForm.tech_stack),
         github_link: createForm.github_link.trim(),
         start_date: createForm.start_date || null,
-        end_date: createForm.end_date || null,
+        end_date: ['planning', 'in_progress'].includes(createForm.status) ? null : (createForm.end_date || null),
         status: createForm.status,
       };
       if (createForm.member_ids.length > 0) body.member_ids = createForm.member_ids;
@@ -234,45 +242,49 @@ export default function AdminProjects() {
     { label: 'End Date', field: 'end_date', type: 'date' },
   ];
 
-  const renderTextField = (formValues, onChange) => ({ label, field, type }) => (
-    <label key={field} className="flex flex-col gap-1 text-gray-400 text-[13px]">
-      {label}
-      {type === 'textarea' ? (
-        <textarea
-          rows={3}
-          className="bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 text-white text-[15px] focus:outline-none focus:border-nyu-purple resize-none"
-          value={formValues[field]}
-          onChange={(e) => onChange(field, e.target.value)}
-        />
-      ) : type === 'select' ? (
-        <div className="relative">
-          <select
-            className="w-full appearance-none bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 pr-9 text-white text-[15px] focus:outline-none focus:border-nyu-purple cursor-pointer"
+  const renderTextField = (formValues, onChange) => ({ label, field, type }) => {
+    const isEndDateDisabled = field === 'end_date' && ['planning', 'in_progress'].includes(formValues.status);
+    return (
+      <label key={field} className="flex flex-col gap-1 text-gray-400 text-[13px]">
+        {label}
+        {type === 'textarea' ? (
+          <textarea
+            rows={3}
+            className="bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 text-white text-[15px] focus:outline-none focus:border-nyu-purple resize-none"
             value={formValues[field]}
             onChange={(e) => onChange(field, e.target.value)}
-          >
-            {Object.entries(STATUS_CONFIG).map(([val, { label: lbl }]) => (
-              <option key={val} value={val}>{lbl}</option>
-            ))}
-          </select>
-          <svg
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
-            fill="none" stroke="currentColor" strokeWidth="2.5"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      ) : (
-        <input
-          type={type === 'date' ? 'date' : 'text'}
-          className="bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 text-white text-[15px] focus:outline-none focus:border-nyu-purple"
-          value={formValues[field]}
-          onChange={(e) => onChange(field, e.target.value)}
-        />
-      )}
-    </label>
-  );
+          />
+        ) : type === 'select' ? (
+          <div className="relative">
+            <select
+              className="w-full appearance-none bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 pr-9 text-white text-[15px] focus:outline-none focus:border-nyu-purple cursor-pointer"
+              value={formValues[field]}
+              onChange={(e) => onChange(field, e.target.value)}
+            >
+              {Object.entries(STATUS_CONFIG).map(([val, { label: lbl }]) => (
+                <option key={val} value={val}>{lbl}</option>
+              ))}
+            </select>
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+              fill="none" stroke="currentColor" strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        ) : (
+          <input
+            type={type === 'date' ? 'date' : 'text'}
+            className={`bg-[#0a0a0a] border border-gray-600 rounded-[8px] px-3 py-2 text-white text-[15px] focus:outline-none focus:border-nyu-purple${isEndDateDisabled ? ' opacity-30 cursor-not-allowed' : ''}`}
+            value={isEndDateDisabled ? '' : formValues[field]}
+            disabled={isEndDateDisabled}
+            onChange={(e) => onChange(field, e.target.value)}
+          />
+        )}
+      </label>
+    );
+  };
 
   const renderForm = (formValues, onChange, onSubmit, submitLabel) => (
     <>
@@ -386,9 +398,9 @@ export default function AdminProjects() {
                 </div>
               )}
 
-              {(project.start_date || project.end_date) && (
+              {project.start_date && (
                 <p className="text-gray-500 text-[12px]">
-                  {project.start_date}{project.end_date ? ` ~ ${project.end_date}` : ''}
+                  {project.start_date} ~ {project.end_date || 'Present'}
                 </p>
               )}
 
