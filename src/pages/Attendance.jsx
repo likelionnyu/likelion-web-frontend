@@ -16,8 +16,6 @@ export default function AttendancePage() {
   const [message, setMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false); // 테스트용 - 나중에 false로 변경
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -95,42 +93,6 @@ export default function AttendancePage() {
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <PublicNav />
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 px-4 py-4 space-y-3">
-          <a href="#about" className="block text-lg hover:text-nyu-purple">
-            About Us
-          </a>
-          <button
-            onClick={() => {
-              navigate('/events');
-              setMobileMenuOpen(false);
-            }}
-            className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer"
-          >
-            Events
-          </button>
-          <button
-            onClick={() => {
-              navigate('/projects');
-              setMobileMenuOpen(false);
-            }}
-            className="block w-full text-left text-lg hover:text-nyu-purple bg-transparent border-none cursor-pointer"
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => {
-              navigate('/login');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full px-4 py-2 border border-black rounded-full text-lg hover:bg-gray-50"
-          >
-            Log In
-          </button>
-        </div>
-      )}
 
       {/* Main Content */}
       <div className="px-4 md:px-[32px] py-8 md:py-[48px]">

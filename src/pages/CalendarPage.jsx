@@ -16,7 +16,7 @@ const localizer = dateFnsLocalizer({
 });
 
 const eventCategories = {
-  'Ideathon': { color: '#FF6000', bgColor: '#FFF4ED' },
+  'Idea/Hackathon': { color: '#FF6000', bgColor: '#FFF4ED' },
   'Project Meeting': { color: '#57068c', bgColor: '#F3E8FF' },
   'Study': { color: '#059669', bgColor: '#D1FAE5' },
   'GM': { color: '#DC2626', bgColor: '#FEE2E2' },
@@ -24,7 +24,7 @@ const eventCategories = {
   'Session': { color: '#9333EA', bgColor: '#F3E8FF' },
 };
 
-function EventsPage() {
+function CalendarPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -110,7 +110,7 @@ function EventsPage() {
       <div className="bg-gradient-to-r from-nyu-purple to-purple-800 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           <div>
-            <h1 className="text-[28px] md:text-4xl font-bold leading-tight md:leading-normal">Events</h1>
+            <h1 className="text-[28px] md:text-4xl font-bold leading-tight md:leading-normal">Calendar</h1>
             <p className="text-purple-200 mt-1 md:mt-2 text-[14px] md:text-lg">Check out LIKELION NYU's upcoming events</p>
           </div>
         </div>
@@ -268,4 +268,4 @@ function EventsPage() {
   );
 }
 
-export default EventsPage;
+export default CalendarPage;

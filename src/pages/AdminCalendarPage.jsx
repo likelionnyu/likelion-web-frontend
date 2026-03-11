@@ -16,7 +16,7 @@ const localizer = dateFnsLocalizer({
 });
 
 const eventCategories = {
-  'Ideathon': { color: '#FF6000', bgColor: '#FFF4ED' },
+  'Idea/Hackathon': { color: '#FF6000', bgColor: '#FFF4ED' },
   'Project Meeting': { color: '#57068c', bgColor: '#F3E8FF' },
   'Study': { color: '#059669', bgColor: '#D1FAE5' },
   'GM': { color: '#DC2626', bgColor: '#FEE2E2' },
@@ -38,7 +38,7 @@ function AdminCalendarPage() {
 
   const [formData, setFormData] = useState({
     title: '',
-    category: 'Ideathon',
+    category: 'Idea/Hackathon',
     start_date: '',
     end_date: '',
     location: '',
@@ -131,7 +131,7 @@ function AdminCalendarPage() {
     setSelectedEvent(null);
     setFormData({
       title: '',
-      category: 'Ideathon',
+      category: 'Idea/Hackathon',
       start_date: '',
       end_date: '',
       location: '',

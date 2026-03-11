@@ -10,7 +10,7 @@ import ScrollToTop from './ScrollToTop';
 import AdminQR from './pages/AdminQR';
 import AdminUsers from './pages/AdminUsers';
 import AdminCalendarPage from './pages/AdminCalendarPage';
-import EventsPage from './pages/EventsPage';
+import CalendarPage from './pages/CalendarPage';
 import AdminProjects from './pages/AdminProjects';
 import AdminAttendance from './pages/AdminAttendance';
 import AdminPhotos from './pages/AdminPhotos';
@@ -27,7 +27,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/events" element={<EventsPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/admin/qr" element={<AdminRoute><AdminQR /></AdminRoute>} />
         <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
