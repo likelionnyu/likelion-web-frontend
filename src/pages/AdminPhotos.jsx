@@ -153,7 +153,12 @@ export default function AdminPhotos() {
     }
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}${API.upload}`, { method: 'POST', body: fd });
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${process.env.REACT_APP_API_URL}${API.upload}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
       if (!res.ok) throw new Error(`${res.status}`);
       const data = await res.json();
       setUploadOk(true);
@@ -189,9 +194,10 @@ export default function AdminPhotos() {
         if (photo.link_id) body.link_id = photo.link_id;
         if (editMember) body.linked_member_id = Number(editMember);
       }
+      const token = localStorage.getItem('token');
       const res = await fetch(`${process.env.REACT_APP_API_URL}${API.update}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error(`${res.status}`);
@@ -215,9 +221,10 @@ export default function AdminPhotos() {
       const body = { photo_id: photo.photo_id };
       if (photo.source === 'member' && photo.link_id) body.link_id = photo.link_id;
       if (photo.source === 'project' && photo.project_id) body.project_id = photo.project_id;
+      const token = localStorage.getItem('token');
       const res = await fetch(`${process.env.REACT_APP_API_URL}${API.delete}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error(`${res.status}`);
