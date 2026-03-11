@@ -26,6 +26,8 @@ export default function LoginPage() {
       });
       if (res.ok) {
         setResendMessage('Verification email sent! Please check your inbox.');
+      } else if (response.status === 400) {
+        setMessage('Please wait for more than 30 seconds and try again');
       } else {
         const data = await res.json().catch(() => ({}));
         setResendMessage(data.error || 'Failed to send. Please try again.');
@@ -50,6 +52,7 @@ export default function LoginPage() {
     setLoading(true);
     setMessage('');
     setResendMessage('');
+    setShowResend(false);
 
     try {
       // 여기에 실제 백엔드 API 주소를 입력하세요
@@ -82,8 +85,6 @@ export default function LoginPage() {
       } else if (response.status === 403) {
         setMessage('Email not verified. Please check your inbox and click the verification link.');
         setShowResend(true);
-      } else if (response.status === 400) {
-        setMessage('Please wait for more than 30 seconds and try again');
       }
       else {
         const result = await response.json().catch(() => ({}));
