@@ -30,6 +30,7 @@ export default function SignUpPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -158,7 +159,8 @@ export default function SignUpPage() {
 
       const result = await response.json();
       if (response.ok) {
-        setMessage('Sign up successful! Please check your inbox and verify your email before logging in.');
+        setMessage('Sign up successful!');
+        setShowPopup(true);
 
         // 폼 초기화
         setFormData({
@@ -172,9 +174,6 @@ export default function SignUpPage() {
           team: '',
         });
 
-        setTimeout(() => {
-          navigate('/login');
-        }, 3000);
       } else if (response.status === 400) {
         setMessage(result.error);
       } else {
@@ -190,6 +189,23 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Email Verification Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-[30px] px-8 py-8 max-w-sm w-full mx-4 relative text-center shadow-lg">
+            <button
+              onClick={() => { setShowPopup(false); navigate('/login'); }}
+              className="absolute top-4 right-5 text-gray-400 hover:text-black text-xl font-bold"
+            >
+              ✕
+            </button>
+            <p className="text-[18px] font-semibold mb-2">Check your inbox!</p>
+            <p className="text-[15px] text-gray-600">
+              Please verify your email before logging in.
+            </p>
+          </div>
+        </div>
+      )}
       {/* Navigation */}
       <PublicNav />
 
