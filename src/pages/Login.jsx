@@ -42,7 +42,6 @@ export default function LoginPage() {
       if (response.ok) {
         const result = await response.json();
         setMessage('Login Successful!');
-        console.log('서버 응답:', result);
 
         // 토큰과 유저 정보 저장 (24시간 후 만료)
         const expiry = Date.now() + 1 * 60 * 60 * 1000;
@@ -53,10 +52,12 @@ export default function LoginPage() {
         // 로그인 성공 후 LandingPage로 이동
         setTimeout(() => {
           navigate('/');
-        }, 1000); // 1초 후 이동 (성공 메시지를 보여주기 위함)
+        }, 1000);
+      } else if (response.status === 403) {
+        setMessage('Email not verified. Please check your inbox and click the verification link.');
       } else {
-        console.log();
-        setMessage('Missing Email or Password.');
+        const result = await response.json().catch(() => ({}));
+        setMessage(result.error || 'Incorrect email or password.');
       }
     } catch (error) {
       console.error('에러 발생:', error);

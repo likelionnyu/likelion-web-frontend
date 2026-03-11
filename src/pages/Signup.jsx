@@ -158,8 +158,7 @@ export default function SignUpPage() {
 
       const result = await response.json();
       if (response.ok) {
-        setMessage('Sign Up was Successful!');
-        console.log('서버 응답:', result);
+        setMessage('Sign up successful! Please check your inbox and verify your email before logging in.');
 
         // 폼 초기화
         setFormData({
@@ -174,8 +173,8 @@ export default function SignUpPage() {
         });
 
         setTimeout(() => {
-          navigate('/');
-        }, 1000); // 1초 후 이동 (성공 메시지를 보여주기 위함)
+          navigate('/login');
+        }, 3000);
       } else if (response.status === 400) {
         setMessage(result.error);
       } else {
