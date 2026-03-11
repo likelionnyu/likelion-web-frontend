@@ -49,6 +49,7 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setMessage('');
+    setResendMessage('');
 
     try {
       // 여기에 실제 백엔드 API 주소를 입력하세요
