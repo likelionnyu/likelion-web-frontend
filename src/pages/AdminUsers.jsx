@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminNav from '../components/AdminNav';
 
 export default function AdminUsers() {
+  const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editedMembers, setEditedMembers] = useState({});
@@ -65,6 +67,16 @@ export default function AdminUsers() {
         setSaveMessage('Saved successfully!');
         setEditedMembers({});
         setDeleteList([]);
+
+        const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+        if (deleteList.includes(currentUser.member_id)) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('tokenExpiry');
+          navigate('/login');
+          return;
+        }
+
         fetchMembers();
       } else {
         setSaveMessage(result.error || 'Failed to save changes');
