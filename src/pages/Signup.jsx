@@ -382,7 +382,7 @@ export default function SignUpPage() {
               {message && (
                 <div
                   className={`text-center py-[12px] px-[16px] rounded-full ${
-                    message.includes('Success')
+                    message.includes('success')
                       ? 'bg-green-100 text-green-800'
                       : 'bg-red-100 text-red-800'
                   }`}

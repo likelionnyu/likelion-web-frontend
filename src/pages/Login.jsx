@@ -82,7 +82,10 @@ export default function LoginPage() {
       } else if (response.status === 403) {
         setMessage('Email not verified. Please check your inbox and click the verification link.');
         setShowResend(true);
-      } else {
+      } else if (response.status === 400) {
+        setMessage('Please wait for more than 30 seconds and try again');
+      }
+      else {
         const result = await response.json().catch(() => ({}));
         setMessage(result.error || 'Incorrect email or password.');
       }
