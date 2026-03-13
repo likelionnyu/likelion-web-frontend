@@ -27,6 +27,9 @@ export default function SignUpPage() {
     current_university: '',
     team: '',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -120,6 +123,13 @@ export default function SignUpPage() {
       return;
     }
 
+    // 5-1. Confirm Password 일치 확인
+    if (formData.password !== confirmPassword) {
+      setMessage('Passwords do not match.');
+      setLoading(false);
+      return;
+    }
+
     // 6-1. Graduation Year 숫자 확인 (이미 입력 단계에서 제한 걸었지만 한 번 더!)
     if (!/^\d+$/.test(formData.graduate_year)) {
       setMessage('Graduation year must contain only integers.');
@@ -163,6 +173,7 @@ export default function SignUpPage() {
         setShowPopup(true);
 
         // 폼 초기화
+        setConfirmPassword('');
         setFormData({
           school_email: '',
           password: '',
@@ -275,14 +286,46 @@ export default function SignUpPage() {
                 <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
                   Password:
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-[16px] py-[9px] border border-black rounded-full focus:outline-none focus:border-nyu-purple text-[16px]"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-[16px] py-[9px] pr-[72px] border border-black rounded-full focus:outline-none focus:border-nyu-purple text-[16px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-[16px] top-1/2 -translate-y-1/2 text-[14px] font-semibold text-nyu-purple hover:opacity-70"
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-[18px] md:text-[20px] font-bold mb-[12px] leading-normal md:leading-normal">
+                  Confirm Password:
+                </label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    className="w-full px-[16px] py-[9px] pr-[72px] border border-black rounded-full focus:outline-none focus:border-nyu-purple text-[16px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-[16px] top-1/2 -translate-y-1/2 text-[14px] font-semibold text-nyu-purple hover:opacity-70"
+                  >
+                    {showConfirmPassword ? 'Hide' : 'Show'}
+                  </button>
+                </div>
               </div>
 
               {/* Current University */}
